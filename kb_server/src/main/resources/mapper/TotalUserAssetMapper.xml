@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.allabo.fyl.kb_server.assets.mapper.TotalUserAssetMapper">
+
+    <resultMap id="userAssetMap"  type="TotalUserAssetDTO">
+        <id property="customerId" 		column="customer_id" />
+        <result property="totalAccountBalance"		column="total_balance" />
+        <result property="totalCardAmount"		column="monthly_amount" />
+        <result property="totalInsurancePremium" 		column="monthly_premium" />
+        <result property="totalRemainingBalance" 		column="remaining_balance" />
+    </resultMap>
+    <select id="get" resultMap="userAssetMap" parameterType="int">
+        SELECT
+            SUM(a.total_balance) AS total_balance,
+            SUM(c.month_amount) AS monthly_amount,
+            SUM(i.monthly_premium) AS monthly_premium,
+            SUM(l.remaining_balance) AS remaining_balance
+        FROM
+            account_info a
+                JOIN
+            card_info c ON a.customer_id = c.customer_id
+                JOIN
+            insurance_info i ON a.customer_id = i.customer_id
+                JOIN
+            loan_info l ON a.customer_id = l.customer_id
+        WHERE
+            a.customer_id = #{customerId}
+    </select>
+
+</mapper>
+
+
