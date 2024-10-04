@@ -1,7 +1,10 @@
 package com.allabo.fyl.fyl_server.service;
 
+import aj.org.objectweb.asm.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -26,7 +29,11 @@ public class KakaoLoginService {
     @Value("${KAKAO_REDIRECT_URI}")
     private String KAKAO_REDIRECT_URI;
 
-
+    /**
+     * 인가코드로 access token, refresh token 발급하는 함수
+     * @param code
+     * @return
+     */
     public String getKakaoAccessToken(String code) {
         RestTemplate restTemplate = new RestTemplate();
 
@@ -58,5 +65,38 @@ public class KakaoLoginService {
             return (String) responseBody.get("access_token");
         }
         return null;
+    }
+
+    /**
+     * 엑세스 토큰으로 카카오톡 서버에 유저 정보(이메일) 가져오는 함수
+     * @param accessToken
+     * @return
+     */
+    public Map<String, Object> getUserInfo(String accessToken) {
+        String reqUrl = "https://kapi.kakao.com/v2/user/me";
+        RestTemplate rt = new RestTemplate();
+
+        // HttpHeader 오브젝트
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + accessToken);
+        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+
+        // http 헤더(headers)를 가진 엔티티
+        HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest =
+                new HttpEntity<>(headers);
+
+        // reqUrl로 Http 요청 , POST 방식
+        ResponseEntity<Map<String, Object>> response = rt.exchange(reqUrl, HttpMethod.POST, kakaoProfileRequest, new ParameterizedTypeReference<Map<String, Object>>() {});
+
+        Map<String, Object> userInfo = new HashMap<>();
+
+        try {
+            userInfo = response.getBody();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+//        System.out.println(userInfo);
+         return userInfo;
     }
 }

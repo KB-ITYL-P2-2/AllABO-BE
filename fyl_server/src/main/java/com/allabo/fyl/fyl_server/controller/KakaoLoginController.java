@@ -20,15 +20,17 @@ public class KakaoLoginController {
 
     @PostMapping("/kakao-redirect")
     public ResponseEntity<Map<String, Object>> callback(@RequestBody Map<String, String> map) {
-        System.out.println("kakao auth code: " + map.get("code"));
+//        System.out.println("kakao auth code: " + map.get("code"));
 
         // 서비스로 인가 코드 전달하여 토큰 요청
         String accessToken = kakaoLoginService.getKakaoAccessToken(map.get("code"));
 
+        Map<String, Object> response = kakaoLoginService.getUserInfo(accessToken);
+
         if (accessToken != null) {
-            System.out.println("kakao access token: " + accessToken);
-            Map<String, Object> response = new HashMap<>();
-            response.put("access_token", accessToken);
+//            System.out.println("kakao access token: " + accessToken);
+//            response.put("access_token", accessToken);
+            System.out.println(response);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             System.out.println("kakao access request fail");
