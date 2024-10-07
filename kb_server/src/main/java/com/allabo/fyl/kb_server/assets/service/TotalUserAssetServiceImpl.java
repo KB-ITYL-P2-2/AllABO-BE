@@ -6,10 +6,12 @@ import com.allabo.fyl.kb_server.assets.repository.TotalUserAssetRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class TotalUserAssetServiceImpl implements TotalUserAssetService {
+
 
     private final TotalUserAssetRepository totalUserAssetRepository;
 
