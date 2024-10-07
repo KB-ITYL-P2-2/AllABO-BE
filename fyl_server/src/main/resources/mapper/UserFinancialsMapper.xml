@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.allabo.fyl.fyl_server.mapper.UserFinancialsMapper">
+    <insert id="insertUserFinancial" parameterType="UserFinancialsDTO">
+        INSERT INTO user_financials (
+            id,
+            monthly_income,
+            total_assets,
+            total_savings,
+            total_investment,
+            total_expenses,
+            total_loan
+        )
+        VALUES (
+               #{id},
+               #{monthlyIncome},
+               #{totalAssets},
+               #{totalSavings},
+               #{totalInvestment},
+               #{totalExpenses},
+               #{totalLoan}
+               )
+    </insert>
+
+
+</mapper>
+
+

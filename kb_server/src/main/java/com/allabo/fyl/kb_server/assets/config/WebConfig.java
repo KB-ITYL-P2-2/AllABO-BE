@@ -9,7 +9,6 @@ import javax.servlet.ServletRegistration;
 
 @Slf4j
 @Configuration
-//@PropertySource({"classpath:/application.properties"})
 public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
     final String LOCATION = "c:/upload";
     final long MAX_FILE_SIZE = 1024 * 1024 * 10L;
@@ -22,7 +21,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class[] { RootConfig.class
-                //, SecurityConfig.class
+                , SecurityConfig.class
                  };
     }
 

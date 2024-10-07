@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.allabo.fyl.fyl_server.security.mapper.UserDetailsMapper">
+    <resultMap id="authMap" type="CustomerAuth">
+        <result property="id" column="id" />
+        <result property="auth" 	column="auth" />
+    </resultMap>
+
+    <resultMap id="customerMap"  type="Customer">
+        <id property="id" 		column="id" />
+        <result property="pwd"		column="pwd" />
+        <result property="name" 		column="name" />
+        <result property="identityNumber"		column="identity_number" />
+        <result property="totalIncome"	column="total_income" />
+
+        <collection property="auths" resultMap="authMap" />
+    </resultMap>
+
+
+    <select id="get"
+            parameterType="string"
+            resultMap="customerMap">
+        select c.*, a.auth
+        from
+            customer c left outer join customer_auth a
+                                       on c.id = a.id
+        where c.id = #{id}
+    </select>
+</mapper>

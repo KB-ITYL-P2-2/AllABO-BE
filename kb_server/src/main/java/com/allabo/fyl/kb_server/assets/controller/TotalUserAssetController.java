@@ -21,9 +21,8 @@ public class TotalUserAssetController {
     public ResponseEntity<TotalUserAssetDTO> findTotalAssetByUserID(@PathVariable int customerId) {
         TotalUserAssetDTO dto = service.getTotalUserAsset(customerId);
         if(dto==null){
-            System.out.println("controller 404");
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.notFound().build();//400
         }
-        return ResponseEntity.ok().body(dto);
+        return ResponseEntity.ok().body(dto);//200
     }
 }
