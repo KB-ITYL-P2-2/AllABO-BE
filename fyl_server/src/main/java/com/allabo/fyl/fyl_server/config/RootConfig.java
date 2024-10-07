@@ -1,4 +1,5 @@
-package com.allabo.fyl.kb_server.assets.config;
+package com.allabo.fyl.fyl_server.config;
+
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -19,14 +20,17 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
+
 @Configuration
 @PropertySource({"classpath:/application.properties"})
+
+
 @MapperScan(basePackages  = {
-        "com.allabo.fyl.kb_server.assets.mapper"
+        "com.allabo.fyl.fyl_server.mapper"
 })
 @ComponentScan(basePackages = {
-        "com.allabo.fyl.kb_server.assets.repository",
-    "com.allabo.fyl.kb_server.assets.service"
+        "com.allabo.fyl.fyl_server.repository",
+    "com.allabo.fyl.fyl_server.service"
 })
 @Slf4j
 @EnableTransactionManagement
@@ -39,7 +43,6 @@ public class RootConfig {
     @Bean
     public DataSource dataSource() {
         HikariConfig config = new HikariConfig();
-
         config.setDriverClassName(driver);
         config.setJdbcUrl(url);
         config.setUsername(username);
