@@ -23,6 +23,43 @@
     </insert>
 
 
+
+
+
+    <resultMap id="searchIdmap"  type="UserFinancialsDTO">
+        <id property="id" 		column="id" />
+        <result property="monthlyIncome"		column="monthly_income" />
+        <result property="totalAssets" 		column="total_assets" />
+        <result property="totalSavings"		column="total_savings" />
+        <result property="totalInvestment"	column="total_investment" />
+        <result property="totalExpenses"	column="total_expenses" />
+        <result property="totalLoan"	column="total_loan" />
+    </resultMap>
+
+    <select id="findById"
+            parameterType="string"
+            resultMap="searchIdmap">
+        select *
+        from
+            user_financials
+        where id = #{id}
+    </select>
+
+
+    <update id="updateUserFinancial" parameterType="UserFinancialsDTO">
+        UPDATE user_financials
+        SET
+            monthly_income = #{monthlyIncome},
+            total_assets = #{totalAssets},
+            total_savings = #{totalSavings},
+            total_investment = #{totalInvestment},
+            total_expenses = #{totalExpenses},
+            total_loan = #{totalLoan}
+        WHERE
+            id = #{id}
+    </update>
+
+
 </mapper>
 
 

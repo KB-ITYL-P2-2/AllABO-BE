@@ -1,17 +1,25 @@
 package com.allabo.fyl.fyl_server.security.filter;
+import com.allabo.fyl.fyl_server.dto.UserFinancialsDTO;
+import com.allabo.fyl.fyl_server.repository.UserFinancialsRepository;
 import com.allabo.fyl.fyl_server.security.exception.AccessTokenException;
+import com.allabo.fyl.fyl_server.security.mapper.CustomerMapper;
 import com.allabo.fyl.fyl_server.security.util.JWTUtil;
+import com.allabo.fyl.fyl_server.security.vo.Customer;
+import com.allabo.fyl.fyl_server.service.UserFinancialsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -28,13 +36,16 @@ import java.util.Map;
 public class MyTokenCheckFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
     private final JWTUtil jwtUtil;
+    private final CustomerMapper customerMapper;  // CustomerMapper 인터페이스 from mybatis to Spring 주입
+    private final UserFinancialsService service;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
         String path = request.getRequestURI();
-        if(!path.startsWith("/order")){
+        //요청 URI가 "/assets/analyze"로 시작하지 않으면, 토큰 검증을 건너뛰고 필터 체인을 계속 진행
+        if(!path.startsWith("/assets/analyze")){
             log.info("skip MyTokenCheckFilterfilter.....path:{}", path);
             filterChain.doFilter(request, response);
             return;
@@ -44,19 +55,20 @@ public class MyTokenCheckFilter extends OncePerRequestFilter {
 //        filterChain.doFilter(request,response);
         try{
             Map<String, Object> payload = validateAccessToken(request);//기한만료,탈취 체크
-            log.info("payload :{} ", payload);//정상적이면 payload가 옴
+            log.info("payload :{} ", payload);//토큰 정상적이면 payload가 옴
             //id
             String id = (String)payload.get("my");
 
             log.info("id: " + id);
 
-            UserDetails userDetails = userDetailsService.loadUserByUsername(id);
-
+            UserDetails userDetails = userDetailsService.loadUserByUsername(id);//auth
+//            UserFinancialsDTO dto =
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
+
 
             filterChain.doFilter(request,response);
         }catch(AccessTokenException accessTokenException){

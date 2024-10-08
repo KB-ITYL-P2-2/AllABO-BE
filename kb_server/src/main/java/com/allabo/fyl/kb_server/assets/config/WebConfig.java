@@ -1,5 +1,6 @@
 package com.allabo.fyl.kb_server.assets.config;
 
+import com.allabo.fyl.kb_server.assets.security.config.SecurityConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -20,8 +21,8 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { RootConfig.class
-                , SecurityConfig.class
+        return new Class[] { RootConfig.class,
+                SecurityConfig.class
                  };
     }
 
