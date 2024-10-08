@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.allabo.fyl.repository.RecommendationMapper">
+
+    <!-- 설문 결과에 따른 맞춤 상품 필터링 -->
+    <select id="selectRecommendationsBySurvey" resultType="com.allabo.fyl.fyl_server.entity.Recommendation">
+        SELECT * FROM card_credit
+        WHERE 1 = 1
+        <if test="benefits != null and benefits != ''">
+            AND benefits LIKE CONCAT('%', #{benefits}, '%')
+        </if>
+        <if test="annualFeeLimit != null">
+            AND annual_fee &lt;= #{annualFeeLimit}
+        </if>
+        <if test="issuer != null and issuer != ''">
+            AND issuer = #{issuer}
+        </if>
+    </select>
+
+</mapper>

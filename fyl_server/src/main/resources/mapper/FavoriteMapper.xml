@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.allabo.fyl.fyl_server.mapper.FavoriteMapper">
+
+    <resultMap id="favoriteMap"  type="FavoriteInsertDTO">
+        <id property="userId" 		column="user_id" />
+        <result property="productId"		column="product_id" />
+        <result property="productType" 		column="product_type" />
+    </resultMap>
+    <!-- 즐겨찾기 추가 -->
+    <insert id="insertFavorite" parameterMap="favoriteMap">
+        INSERT INTO favorites (user_id, product_id, product_type)
+        VALUES (#{userId}, #{productId}, #{productType})
+    </insert>
+
+    <!-- 사용자별 즐겨찾기 목록 조회 -->
+    <select id="selectFavoritesByUserId" resultType="com.allabo.fyl.fyl_server.entity.Favorite">
+        SELECT * FROM favorites WHERE user_id = #{userId}
+    </select>
+
+    <!-- 즐겨찾기 삭제 -->
+    <delete id="deleteFavorite">
+        DELETE FROM favorites
+        WHERE user_id = #{userId}
+          AND product_id = #{productId}
+          AND product_type = #{productType}
+    </delete>
+
+</mapper>

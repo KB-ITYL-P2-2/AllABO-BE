@@ -12,6 +12,7 @@
         <package name="com.allabo.fyl.fyl_server.security.vo" />
         <package name="com.allabo.fyl.fyl_server.security.dto" />
         <package name="com.allabo.fyl.fyl_server.dto" />
+        <package name="com.allabo.fyl.fyl_server.entity" />
     </typeAliases>
 
 
