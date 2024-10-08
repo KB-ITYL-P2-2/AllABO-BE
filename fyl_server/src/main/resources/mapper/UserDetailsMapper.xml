@@ -15,8 +15,7 @@
 
         <collection property="auths" resultMap="authMap" />
     </resultMap>
-
-
+    
     <select id="get"
             parameterType="string"
             resultMap="customerMap">

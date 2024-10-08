@@ -5,8 +5,10 @@ import com.allabo.fyl.fyl_server.security.filter.MyRefreshTokenFilter;
 import com.allabo.fyl.fyl_server.security.filter.MyTokenCheckFilter;
 import com.allabo.fyl.fyl_server.security.handler.MyLoginFailureHandler;
 import com.allabo.fyl.fyl_server.security.handler.MyLoginSuccessHandler;
+import com.allabo.fyl.fyl_server.security.mapper.CustomerMapper;
 import com.allabo.fyl.fyl_server.security.service.MyUserDetailsService;
 import com.allabo.fyl.fyl_server.security.util.JWTUtil;
+import com.allabo.fyl.fyl_server.service.UserFinancialsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
@@ -40,6 +42,8 @@ import org.springframework.web.filter.CorsFilter;
 public class SecurityConfig {
     private final JWTUtil jwtUtil;
     private final MyUserDetailsService userDetailsService;
+    private final CustomerMapper mapper;
+    private final UserFinancialsService service;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -105,7 +109,7 @@ public class SecurityConfig {
     }
 
     private MyTokenCheckFilter tokenCheckFilter(MyUserDetailsService userDetailsService) {
-        return new MyTokenCheckFilter(userDetailsService, jwtUtil);
+        return new MyTokenCheckFilter(userDetailsService, jwtUtil,mapper,service);
     }
 
     private MyLoginFilter loginFilter(AuthenticationManager authenticationManager) throws Exception {
