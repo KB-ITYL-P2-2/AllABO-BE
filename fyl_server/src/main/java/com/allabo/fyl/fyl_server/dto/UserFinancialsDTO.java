@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserFinancialsDTO {
     private String id;
-    private String monthlyIncome;
-    private String totalAssets;
-    private String totalSavings;
-    private String totalInvestment;
-    private String totalExpenses;
-    private String totalLoan;
+    private int monthlyIncome;
+    private int totalAssets;
+    private int totalSavings;
+    private int totalInvestment;
+    private int totalExpenses;
+    private int totalLoan;
 }

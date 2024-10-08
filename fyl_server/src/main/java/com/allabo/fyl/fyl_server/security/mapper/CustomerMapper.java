@@ -8,5 +8,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface CustomerMapper {
     void insert(Customer customer);
     Customer findById(String id);
+
     void insert_auth(CustomerAuth auth);
 }

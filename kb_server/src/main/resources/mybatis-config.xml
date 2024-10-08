@@ -10,6 +10,7 @@
 
     <typeAliases>
         <package name="com.allabo.fyl.kb_server.assets.dto" />
+        <package name="com.allabo.fyl.kb_server.assets.vo" />
     </typeAliases>
 
 </configuration>

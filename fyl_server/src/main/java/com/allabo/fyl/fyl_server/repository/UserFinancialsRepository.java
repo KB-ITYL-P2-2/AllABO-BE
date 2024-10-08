@@ -13,4 +13,13 @@ public class UserFinancialsRepository {
     public void saveUserFinancial(UserFinancialsDTO userFinancialDTO) {
         userFinancialsMapper.insertUserFinancial(userFinancialDTO);
     }
+
+    public UserFinancialsDTO findUserFinancial(String id) {
+        return userFinancialsMapper.findById(id);
+    }
+
+    public void updateUserFinancial(UserFinancialsDTO userFinancialsDTO) {
+        userFinancialsMapper.updateUserFinancial(userFinancialsDTO);
+    }
+
 }
