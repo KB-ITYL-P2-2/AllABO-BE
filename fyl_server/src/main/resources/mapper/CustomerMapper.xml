@@ -3,12 +3,13 @@
 <mapper namespace="com.allabo.fyl.fyl_server.security.mapper.CustomerMapper">
 <insert id="insert" parameterType="Customer">
     INSERT INTO customer (
-    id,pwd,name,identity_number,total_income)
+    id,pwd,name,identity_number,phone_number,total_income)
     VALUES (
     #{id},
     #{pwd},
     #{name},
     #{identityNumber},
+    #{phoneNumber},
     #{totalIncome}
     )
 </insert>
@@ -18,7 +19,7 @@
 <select id="findById"
         parameterType="string"
         resultType="Customer">
-    SELECT id,pwd,name,identity_number,total_income FROM customer WHERE id = #{id}
+    SELECT id,pwd,name,identity_number,phoneNumber,total_income FROM customer WHERE id = #{id}
 </select>
 </mapper>
 

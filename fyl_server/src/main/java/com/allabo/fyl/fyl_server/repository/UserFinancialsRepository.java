@@ -1,4 +1,5 @@
 package com.allabo.fyl.fyl_server.repository;
+import com.allabo.fyl.fyl_server.dao.UserFinancialsRatioDAO;
 import com.allabo.fyl.fyl_server.dto.UserFinancialsDTO;
 import com.allabo.fyl.fyl_server.mapper.UserFinancialsMapper;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,10 @@ public class UserFinancialsRepository {
 
     public void updateUserFinancial(UserFinancialsDTO userFinancialsDTO) {
         userFinancialsMapper.updateUserFinancial(userFinancialsDTO);
+    }
+
+    public void saveUserFinancialsRatio(UserFinancialsRatioDAO dao) {
+        userFinancialsMapper.saveUserFinancialsRatio(dao);
     }
 
 }

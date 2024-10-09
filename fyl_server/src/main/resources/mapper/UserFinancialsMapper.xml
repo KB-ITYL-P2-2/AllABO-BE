@@ -24,8 +24,6 @@
 
 
 
-
-
     <resultMap id="searchIdmap"  type="UserFinancialsDTO">
         <id property="id" 		column="id" />
         <result property="monthlyIncome"		column="monthly_income" />
@@ -58,6 +56,30 @@
         WHERE
             id = #{id}
     </update>
+
+
+    <insert id="saveUserFinancialsRatio" parameterType="UserFinancialsRatioDAO">
+        INSERT INTO user_financials_ratio (
+            id,
+            asset_investment_ratio,
+            income_investment_ratio,
+            income_savings_ratio,
+            income_debt_ratio,
+            asset_savings_ratio,
+            asset_debt_ratio,
+            income_expenditure_ratio
+        )
+        VALUES (
+                   #{id},
+                   #{assetInvestmentRatio},
+                   #{incomeInvestmentRatio},
+                   #{incomeSavingsRatio},
+                   #{incomeDebtRatio},
+                   #{assetSavingsRatio},
+                   #{assetDebtRatio},
+                   #{incomeExpenditureRatio}
+               )
+    </insert>
 
 
 </mapper>

@@ -36,7 +36,7 @@ public class AssetAnalyzeController {
     @Autowired
     private JWTUtil jwtUtil;
     @GetMapping("/assets/analyze")
-    public ResponseEntity<String> me(Authentication authentication, HttpServletRequest request) {
+    public ResponseEntity<String> Assetanalyze(Authentication authentication, HttpServletRequest request) {
         String id = authentication.getName();
         MyUser myUser = (MyUser)authentication.getPrincipal();
 //        log.info("자산분석 들어온 손님: " + myUser.getCustomer().getIdentityNumber()
