@@ -11,6 +11,7 @@ public class Customer {
     private String pwd;
     private String name;
     private String identityNumber;
+    private String phoneNumber;
     private int totalIncome;
     private List<CustomerAuth> auths;
     private String sns = "normal";
