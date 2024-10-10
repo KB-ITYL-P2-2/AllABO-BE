@@ -17,6 +17,7 @@ public class FavoriteController {
     // 즐겨찾기 추가
     @PostMapping("/add")
     public void addFavorite(@RequestParam Long userId, @RequestParam Long productId, @RequestParam String productType) {
+        System.out.println("@@@@");
         favoriteService.addFavorite(userId, productId, productType);
     }
 

@@ -2,6 +2,7 @@ package com.allabo.fyl.fyl_server.mapper;
 
 import com.allabo.fyl.fyl_server.entity.Favorite;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
 public interface FavoriteMapper {
 
     // 즐겨찾기 추가 - 어노테이션 제거, 매퍼 XML에서 정의
-    void insertFavorite(Long userId, Long productId, String productType);
+    void insertFavorite(@Param("userId") Long userId, @Param("productId") Long productId, @Param("productType") String productType);
 
     // 즐겨찾기 삭제 - 어노테이션 제거, 매퍼 XML에서 정의
     void deleteFavorite(Long userId, Long productId, String productType);
