@@ -1,5 +1,9 @@
 package com.allabo.fyl.fyl_server.entity;
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 public class Recommendation {
     private Long id;
     private String name;             // 상품 이름 (카드 이름)
