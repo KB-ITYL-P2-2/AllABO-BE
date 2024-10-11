@@ -2,33 +2,45 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 
-<mapper namespace="com.allabo.fyl.kb_server.assets.mapper.TotalUserAssetMapper">
+<mapper namespace="com.allabo.fyl.kb_server.assets.security.mapper.TotalUserAssetMapper">
 
     <resultMap id="userAssetMap"  type="TotalUserAssetDTO">
         <id property="customerId" 		column="customer_id" />
+        <result property="identityNumber"		column="identity_number" />
         <result property="totalAccountBalance"		column="total_balance" />
         <result property="totalCardAmount"		column="monthly_amount" />
         <result property="totalInsurancePremium" 		column="monthly_premium" />
         <result property="totalRemainingBalance" 		column="remaining_balance" />
     </resultMap>
-    <select id="get" resultMap="userAssetMap" parameterType="int">
+    <select id="get" resultMap="userAssetMap" parameterType="String">
         SELECT
-            SUM(a.total_balance) AS total_balance,
-            SUM(c.month_amount) AS monthly_amount,
-            SUM(i.monthly_premium) AS monthly_premium,
-            SUM(l.remaining_balance) AS remaining_balance
+            z.customer_id,
+            z.identity_number,
+            COALESCE(SUM(a.total_balance), 0) AS total_balance,
+            COALESCE(SUM(c.month_amount), 0) AS monthly_amount,
+            COALESCE(SUM(i.monthly_premium), 0) AS monthly_premium,
+            COALESCE(SUM(l.remaining_balance), 0) AS remaining_balance
         FROM
-            account_info a
-                JOIN
-            card_info c ON a.customer_id = c.customer_id
-                JOIN
-            insurance_info i ON a.customer_id = i.customer_id
-                JOIN
-            loan_info l ON a.customer_id = l.customer_id
+            customer z
+                LEFT JOIN account_info a ON z.customer_id = a.customer_id
+                LEFT JOIN card_info c ON a.customer_id = c.customer_id
+                LEFT JOIN insurance_info i ON a.customer_id = i.customer_id
+                LEFT JOIN loan_info l ON a.customer_id = l.customer_id
         WHERE
-            a.customer_id = #{customerId}
+            z.identity_number = #{identity}
+        GROUP BY
+            z.customer_id, z.identity_number;
     </select>
-
+    <resultMap id="user"  type="Customer">
+        <id property="customerId" 		column="customer_id" />
+        <result property="name"		column="name" />
+        <result property="identityNumber"		column="identity_number" />
+    </resultMap>
+    <select id="findById" resultMap="user" parameterType="String">
+        SELECT * FROM customer
+                 WHERE
+            identity_number = #{id}
+    </select>
 </mapper>
 
 

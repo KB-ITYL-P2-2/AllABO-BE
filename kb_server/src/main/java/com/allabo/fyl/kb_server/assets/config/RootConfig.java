@@ -22,9 +22,11 @@ import javax.sql.DataSource;
 @Configuration
 @PropertySource({"classpath:/application.properties"})
 @MapperScan(basePackages  = {
-        "com.allabo.fyl.kb_server.assets.mapper"
+        "com.allabo.fyl.kb_server.assets.mapper",
+        "com.allabo.fyl.kb_server.assets.security.mapper"
 })
 @ComponentScan(basePackages = {
+        "com.allabo.fyl.kb_server.assets.repository",
     "com.allabo.fyl.kb_server.assets.service"
 })
 @Slf4j

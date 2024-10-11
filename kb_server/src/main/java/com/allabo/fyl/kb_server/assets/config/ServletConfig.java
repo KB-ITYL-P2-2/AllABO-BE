@@ -11,7 +11,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @EnableWebMvc
 @ComponentScan(basePackages = {
-        "com.allabo.fyl.kb_server.assets.controller"
+        "com.allabo.fyl.kb_server.assets.controller",
+        "com.allabo.fyl.kb_server.assets.security.controller"
 })
 public class ServletConfig  implements WebMvcConfigurer {
 

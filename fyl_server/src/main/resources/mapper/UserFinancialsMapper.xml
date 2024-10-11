@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.allabo.fyl.fyl_server.mapper.UserFinancialsMapper">
+    <insert id="insertUserFinancial" parameterType="UserFinancialsDTO">
+        INSERT INTO user_financials (
+            id,
+            monthly_income,
+            total_assets,
+            total_savings,
+            total_investment,
+            total_expenses,
+            total_loan
+        )
+        VALUES (
+               #{id},
+               #{monthlyIncome},
+               #{totalAssets},
+               #{totalSavings},
+               #{totalInvestment},
+               #{totalExpenses},
+               #{totalLoan}
+               )
+    </insert>
+
+
+
+    <resultMap id="searchIdmap"  type="UserFinancialsDTO">
+        <id property="id" 		column="id" />
+        <result property="monthlyIncome"		column="monthly_income" />
+        <result property="totalAssets" 		column="total_assets" />
+        <result property="totalSavings"		column="total_savings" />
+        <result property="totalInvestment"	column="total_investment" />
+        <result property="totalExpenses"	column="total_expenses" />
+        <result property="totalLoan"	column="total_loan" />
+    </resultMap>
+
+    <select id="findById"
+            parameterType="string"
+            resultMap="searchIdmap">
+        select *
+        from
+            user_financials
+        where id = #{id}
+    </select>
+
+
+    <update id="updateUserFinancial" parameterType="UserFinancialsDTO">
+        UPDATE user_financials
+        SET
+            monthly_income = #{monthlyIncome},
+            total_assets = #{totalAssets},
+            total_savings = #{totalSavings},
+            total_investment = #{totalInvestment},
+            total_expenses = #{totalExpenses},
+            total_loan = #{totalLoan}
+        WHERE
+            id = #{id}
+    </update>
+
+
+    <insert id="saveUserFinancialsRatio" parameterType="UserFinancialsRatioDAO">
+        INSERT INTO user_financials_ratio (
+            id,
+            asset_investment_ratio,
+            income_investment_ratio,
+            income_savings_ratio,
+            income_debt_ratio,
+            asset_savings_ratio,
+            asset_debt_ratio,
+            income_expenditure_ratio
+        )
+        VALUES (
+                   #{id},
+                   #{assetInvestmentRatio},
+                   #{incomeInvestmentRatio},
+                   #{incomeSavingsRatio},
+                   #{incomeDebtRatio},
+                   #{assetSavingsRatio},
+                   #{assetDebtRatio},
+                   #{incomeExpenditureRatio}
+               )
+    </insert>
+
+
+</mapper>
+
+
