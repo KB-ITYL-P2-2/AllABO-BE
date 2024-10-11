@@ -9,30 +9,73 @@
             total_savings,
             total_investment,
             total_expenses,
-            total_loan
+            total_loan,
+            account_type,
+            savings_product_name,
+            savings_start_date,
+            savings_end_date,
+            savings_interest_rate,
+            loan_type,
+            loan_interest_rate,
+            loan_start_date,
+            loan_end_date,
+            remaining_loan,
+            insurance_monthly_payment,
+            insurance_product,
+            insurance_start_date,
+            total_pension
         )
         VALUES (
-               #{id},
-               #{monthlyIncome},
-               #{totalAssets},
-               #{totalSavings},
-               #{totalInvestment},
-               #{totalExpenses},
-               #{totalLoan}
+                   #{id},
+                   #{monthlyIncome},
+                   #{totalAssets},
+                   #{totalSavings},
+                   #{totalInvestment},
+                   #{totalExpenses},
+                   #{totalLoan},
+                   #{accountType},
+                   #{savingsProductName},
+                   #{savingsStartDate},
+                   #{savingsEndDate},
+                   #{savingsInterestRate},
+                   #{loanType},
+                   #{loanInterestRate},
+                   #{loanStartDate},
+                   #{loanEndDate},
+                   #{remainingLoan},
+                   #{insuranceMonthlyPayment},
+                   #{insuranceProduct},
+                   #{insuranceStartDate},
+                   #{totalPension}
                )
     </insert>
 
 
 
-    <resultMap id="searchIdmap"  type="UserFinancialsDTO">
-        <id property="id" 		column="id" />
-        <result property="monthlyIncome"		column="monthly_income" />
-        <result property="totalAssets" 		column="total_assets" />
-        <result property="totalSavings"		column="total_savings" />
-        <result property="totalInvestment"	column="total_investment" />
-        <result property="totalExpenses"	column="total_expenses" />
-        <result property="totalLoan"	column="total_loan" />
+    <resultMap id="searchIdmap" type="UserFinancialsDTO">
+        <id property="id" column="id" />
+        <result property="monthlyIncome" column="monthly_income" />
+        <result property="totalAssets" column="total_assets" />
+        <result property="totalSavings" column="total_savings" />
+        <result property="totalInvestment" column="total_investment" />
+        <result property="totalExpenses" column="total_expenses" />
+        <result property="totalLoan" column="total_loan" />
+        <result property="accountType" column="account_type" />
+        <result property="savingsProductName" column="savings_product_name" />
+        <result property="savingsStartDate" column="savings_start_date" />
+        <result property="savingsEndDate" column="savings_end_date" />
+        <result property="savingsInterestRate" column="savings_interest_rate" />
+        <result property="loanType" column="loan_type" />
+        <result property="loanInterestRate" column="loan_interest_rate" />
+        <result property="loanStartDate" column="loan_start_date" />
+        <result property="loanEndDate" column="loan_end_date" />
+        <result property="remainingLoan" column="remaining_loan" />
+        <result property="insuranceMonthlyPayment" column="insurance_monthly_payment" />
+        <result property="insuranceProduct" column="insurance_product" />
+        <result property="insuranceStartDate" column="insurance_start_date" />
+        <result property="totalPension" column="total_pension" />
     </resultMap>
+
 
     <select id="findById"
             parameterType="string"
@@ -80,7 +123,6 @@
                    #{incomeExpenditureRatio}
                )
     </insert>
-
 
 </mapper>
 
