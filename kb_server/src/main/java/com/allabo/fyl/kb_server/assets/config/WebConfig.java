@@ -3,6 +3,8 @@ package com.allabo.fyl.kb_server.assets.config;
 import com.allabo.fyl.kb_server.assets.security.config.SecurityConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.MultipartConfigElement;
@@ -10,14 +12,16 @@ import javax.servlet.ServletRegistration;
 
 @Slf4j
 @Configuration
-public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
-    final String LOCATION = "c:/upload";
-    final long MAX_FILE_SIZE = 1024 * 1024 * 10L;
-    final long MAX_REQUEST_SIZE =  1024 * 1024 * 20L;
-    final int FILE_SIZE_THRESHOLD = 1024 * 1024 * 5;;
+public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer implements WebMvcConfigurer {
 
-
-//    @Value("${upload.maxFileSize}") Long maxFileSize;
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")  // 모든 경로에 대해 CORS 허용
+                .allowedOrigins("*")  // 모든 출처 허용
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")  // 허용할 HTTP 메서드
+                .allowedHeaders("*")  // 모든 헤더 허용
+                .allowCredentials(true);  // 자격 증명 허용 (쿠키 등)
+    }
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
@@ -47,20 +51,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 //    }
 
 
-    @Override
-    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
-//        log.info("Max File Size: " + maxFileSize);
 
-        registration.setInitParameter("throwExceptionIfNoHandlerFound", "true");
-        MultipartConfigElement multipartConfig =
-                new MultipartConfigElement(
-                        LOCATION,   // 업로드 처리 디렉토리 경로
-                        MAX_FILE_SIZE,	// 업로드 가능한 파일 하나의 최대 크기
-                        MAX_REQUEST_SIZE,	// 업로드 가능한 전체 최대 크기(여러 파일 업로드 하는 경우)
-                        FILE_SIZE_THRESHOLD		// 메모리 파일의 최대 크기(이보다 작으면 실제 메모리에서만 작업)
-                );
-        registration.setMultipartConfig(multipartConfig);
-    }
 
 
 }

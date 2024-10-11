@@ -49,7 +49,7 @@ public class AssetAnalyzeController {
         log.info("identityNumber: " + identityNumber);
 
         RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:8080/kb/total";
+        String url = "http://43.202.62.154:8888/kb/total";
 
         try {
 // JWT 토큰 생성
