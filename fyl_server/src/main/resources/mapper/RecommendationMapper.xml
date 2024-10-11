@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.allabo.fyl.fyl_server.mapper.RecommendationMapper">
+
+    <!-- 신용카드 resultMap -->
+    <resultMap id="CreditCardResultMap" type="com.allabo.fyl.fyl_server.dto.Recommendation">
+        <result property="id" column="credit_card_id"/>
+        <result property="cardName" column="credit_card_name"/>
+        <result property="annualFee" column="credit_card_annual_fee"/>
+        <result property="category" column="credit_card_category"/>
+        <result property="benefits" column="credit_card_keyword"/>
+    </resultMap>
+
+    <!-- 체크카드 resultMap -->
+    <resultMap id="CheckCardResultMap" type="com.allabo.fyl.fyl_server.dto.Recommendation">
+        <result property="id" column="check_card_id"/>
+        <result property="cardName" column="check_card_name"/>
+        <result property="category" column="check_card_category"/>
+        <result property="benefits" column="check_card_keyword"/>
+    </resultMap>
+
+    <!-- 신용카드 필터링 쿼리 -->
+    <select id="selectCreditCardRecommendations" resultMap="CreditCardResultMap">
+        SELECT * FROM credit_card_products
+        WHERE 1 = 1
+        <if test="annualFeeMin != null and annualFeeMax != null">
+            AND credit_card_annual_fee BETWEEN #{annualFeeMin} AND #{annualFeeMax}
+        </if>
+        <if test="benefits != null and benefits != ''">
+            AND credit_card_keyword LIKE CONCAT('%', #{benefits}, '%')
+        </if>
+        <if test="category != null and category != ''">
+            AND credit_card_category LIKE CONCAT('%', #{category}, '%')
+        </if>
+    </select>
+
+    <!-- 체크카드 필터링 쿼리 -->
+    <select id="selectCheckCardRecommendations" resultMap="CheckCardResultMap">
+        SELECT * FROM check_card_products
+        WHERE 1 = 1
+        <if test="benefits != null and benefits != ''">
+            AND check_card_keyword LIKE CONCAT('%', #{benefits}, '%')
+        </if>
+        <if test="category != null and category != ''">
+            AND check_card_category LIKE CONCAT('%', #{category}, '%')
+        </if>
+    </select>
+
+</mapper>
