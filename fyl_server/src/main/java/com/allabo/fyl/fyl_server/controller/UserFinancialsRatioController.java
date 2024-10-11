@@ -29,12 +29,22 @@ public class UserFinancialsRatioController {
     public ReturnClass getRatio(Authentication authentication, HttpServletRequest request){
         MyUser user = (MyUser) authentication.getPrincipal();
         UserFinancialsDTO dto = userFinancialsService.FindUserFinancials(user.getUsername());
+
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(openAiApiKey);
 
-        String requestBody = "{\"model\": \"gpt-4-vision-preview\", \"messages\": [{\"role\": \"user\", \"content\": [{\"type\": \"text\", \"text\": \"사진에 보이는 쓰레기들을 어떻게 분리수거 할 수 있는지 번호를 매겨서 설명해줘\"}, {\"type\": \"image_url\", \"image_url\": {\"url\": \"" + "" + "\"}}]}], \"max_tokens\": 1000}";
+        String requestBody = "{\n" +
+                "    \"model\": \"gpt-4o-mini\",\n" +
+                "    \"messages\": [\n" +
+                "        {\n" +
+                "            \"role\": \"user\",\n" +
+                "            \"content\": \"사용자 월 소득: "+dto.getMonthlyIncome()+"원\\n사용자 총 자산: "+dto.getTotalAssets()+"원 (계좌 자산 + 연금 준비 금액 + 투자 평가 금액)\\n사용자 총 저축 금액: "+dto.getTotalSavings()+"원 (계좌 자산)\\n사용자 총 투자 금액: "+dto.getTotalInvestment()+"원 (연금 준비 금액 + 투자 평가 금액)\\n사용자 월 지출 금액: "+dto.getMonthExpenses()+"원 (보험 납부 금액 + 카드 이용 금액)\\n사용자 총 부채 금액: "+dto.getTotalLoan()+"원\\n\\n일 때\\n**1) 사용자 \\\\*자산 대비\\\\* 투자 비율(%)**\\n(총\\\\ 투자\\\\ 금액/총\\\\ 자산) \\\\* 100\\n\\n**2) 사용자 \\\\*연 소득 대비\\\\* 투자 비율(%)**\\n(투자 금액/연 소득) \\\\* 100\\n\\n**3) 사용자 \\\\*연 소득 대비\\\\* 저축 비율(%)**\\n(저축 금액/연 소득) \\\\* 100\\n\\n**4) 사용자 \\\\*연 소득 대비\\\\* 부채 비율(%)**\\n(부채 금액/연 소득) \\\\* 100\\n\\n**5) 사용자 자산 \\\\*대비\\\\* 저축 비율(%)**\\n(저축 금액/총 자산) \\\\* 100\\n\\n**6) 사용자 자산 대비 부채 비율(%)**\\n(저축 금액/지출 금액) \\\\* 100\\n\\n**7) 사용자 월 \\\\*소득 대비\\\\* 지출 비율(%)**\\n(지출 금액/월 소득) \\\\* 100\\n\\n구해줘.\\n응답은 다음과 같이 json형태로. 소숫점 둘째 자리에서 반올림해줘.\\n{\\n  \\\"자산 대비 투자 비율(%)\\\": ,\\n  \\\"연 소득 대비 투자 비율(%)\\\": ,\\n  \\\"연 소득 대비 저축 비율(%)\\\": ,\\n  \\\"연 소득 대비 부채 비율(%)\\\": ,\\n  \\\"자산 대비 저축 비율(%)\\\": ,\\n  \\\"자산 대비 부채 비율(%)\\\": ,\\n  \\\"월 소득 대비 지출 비율(%)\\\": \\n}\"\n" +
+                "        }\n" +
+                "    ],\n" +
+                "    \"response_format\":{\"type\": \"json_object\"}\n" +
+                "}";
 
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
 
@@ -53,13 +63,7 @@ public class UserFinancialsRatioController {
     }
 
     public static class ReturnClass {
-        String url, conversation;
-        public String getUrl() {
-            return url;
-        }
-        public void setUrl(String url) {
-            this.url = url;
-        }
+        String conversation;
         public String getConversation() {
             return conversation;
         }

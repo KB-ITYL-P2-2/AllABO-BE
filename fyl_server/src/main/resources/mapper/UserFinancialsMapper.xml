@@ -8,7 +8,7 @@
             total_assets,
             total_savings,
             total_investment,
-            total_expenses,
+            month_expenses,
             total_loan
         )
         VALUES (
@@ -17,7 +17,7 @@
                #{totalAssets},
                #{totalSavings},
                #{totalInvestment},
-               #{totalExpenses},
+               #{monthExpenses},
                #{totalLoan}
                )
     </insert>
@@ -30,7 +30,7 @@
         <result property="totalAssets" 		column="total_assets" />
         <result property="totalSavings"		column="total_savings" />
         <result property="totalInvestment"	column="total_investment" />
-        <result property="totalExpenses"	column="total_expenses" />
+        <result property="monthExpenses"	column="month_expenses" />
         <result property="totalLoan"	column="total_loan" />
     </resultMap>
 
@@ -51,7 +51,7 @@
             total_assets = #{totalAssets},
             total_savings = #{totalSavings},
             total_investment = #{totalInvestment},
-            total_expenses = #{totalExpenses},
+            month_expenses = #{monthExpenses},
             total_loan = #{totalLoan}
         WHERE
             id = #{id}
