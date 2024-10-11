@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/kb")
 public class TotalUserAssetController {
     private final JWTUtil jwtUtil;
     private final TotalUserAssetService service;
 
-    @GetMapping("/total")
+    @CrossOrigin(origins = "*")  // 모든 출처에서 CORS 요청 허용
+    @GetMapping("/kb/total")
     public ResponseEntity<?> getTotalUserAsset(@RequestHeader("Authorization") String authHeader) {
         String token = authHeader.substring(7); // "Bearer " 이후의 토큰 추출
 

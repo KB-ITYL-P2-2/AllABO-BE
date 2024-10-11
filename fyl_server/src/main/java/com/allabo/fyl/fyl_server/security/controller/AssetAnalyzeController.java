@@ -49,7 +49,7 @@ public class AssetAnalyzeController {
         log.info("identityNumber: " + identityNumber);
 
         RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:8080/kb/total";
+        String url = "http://localhost:8090/kb/total";
 
         try {
 // JWT 토큰 생성
@@ -78,9 +78,9 @@ public class AssetAnalyzeController {
                 dto.setTotalSavings((Integer) totalData.getOrDefault("totalAccountBalance", 0)); // 총 저축
                 dto.setTotalAssets(10000000 + (Integer) totalData.getOrDefault("totalAccountBalance", 0)); // 종자산(저축 + 투자)
                 dto.setTotalInvestment(10000000); // 총 투자
-                dto.setTotalExpenses(
-                        (Integer) totalData.getOrDefault("totalCardAmount", 0) +
-                                (Integer) totalData.getOrDefault("totalInsurancePremium", 0)
+                dto.setMonthExpenses(
+                        (Integer) totalData.getOrDefault("monthCardAmount", 0) + //월카드내역
+                                (Integer) totalData.getOrDefault("monthInsurancePremium", 0)
                 ); // 총 지출
                 dto.setTotalLoan((Integer) totalData.getOrDefault("totalRemainingBalance", 0)); // 대출금
                 log.info("financial dto: {}", dto);
