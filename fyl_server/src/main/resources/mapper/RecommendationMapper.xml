@@ -23,7 +23,7 @@
     </resultMap>
 
     <!-- 신용카드 필터링 쿼리 -->
-    <select id="selectCreditCardRecommendations" resultMap="CreditCardResultMap">
+    <select id="selectCreditCardRecommendations" resultType="CreditCardDAO">
         SELECT * FROM credit_card_products
         WHERE 1 = 1
         <if test="annualFeeMin != null and annualFeeMax != null">

@@ -1,5 +1,6 @@
 package com.allabo.fyl.fyl_server.service;
 
+import com.allabo.fyl.fyl_server.dao.CreditCardDAO;
 import com.allabo.fyl.fyl_server.dto.Recommendation;
 import com.allabo.fyl.fyl_server.mapper.RecommendationMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +15,19 @@ public class RecommendationService {
     private RecommendationMapper recommendationMapper;
 
     // 카드 종류에 따라 맞춤 상품 추천 로직
-    public List<Recommendation> getRecommendations(String cardType, Integer feeOption, String benefits, String category) {
+    public List<CreditCardDAO> getRecommendations(String cardType, Integer feeOption, String benefits, String category) {
         if (cardType.equals("신용카드")) {
             Integer[] feeRange = getAnnualFeeRange(feeOption);
             Integer annualFeeMin = feeRange[0];
             Integer annualFeeMax = feeRange[1];
-            return recommendationMapper.selectCreditCardRecommendations(annualFeeMin, annualFeeMax, benefits, category);
-        } else if (cardType.equals("체크카드")) {
-            return recommendationMapper.selectCheckCardRecommendations(benefits, category);
-        } else {
+            List<CreditCardDAO> list = recommendationMapper.selectCreditCardRecommendations(annualFeeMin, annualFeeMax, benefits, category);
+            System.out.println("여기는 서비스/: "+ list);
+            return list;
+        }
+//        else if (cardType.equals("체크카드")) {
+//            return recommendationMapper.selectCheckCardRecommendations(benefits, category);
+//        }
+        else {
             return null; // 잘못된 카드 타입일 경우 null 리턴
         }
     }
