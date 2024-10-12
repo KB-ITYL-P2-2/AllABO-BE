@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.allabo.fyl.fyl_server.mapper.ProductMapper">
+    <select
+            id="selectAllCheckCard"
+            resultType="CheckCardDAO">
+        SELECT * FROM check_card_products
+    </select>
+    <select
+            id="selectAllCreditCard"
+            resultType="CreditCardDAO">
+        SELECT * FROM credit_card_products
+    </select>
+    <select
+            id="selectAllLoan"
+            resultType="LoanDAO">
+        SELECT * FROM loan_products
+    </select>
+    <select
+            id="selectAllInsurance"
+            resultType="InsuranceDAO">
+        SELECT * FROM insurance_products
+    </select>
+    <select
+            id="selectAllDeposit"
+            resultType="DepositDAO">
+        SELECT * FROM deposit_products
+    </select>
+</mapper>
+
+

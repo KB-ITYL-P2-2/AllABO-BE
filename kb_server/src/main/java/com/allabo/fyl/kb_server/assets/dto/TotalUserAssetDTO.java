@@ -11,7 +11,7 @@ public class TotalUserAssetDTO {
     private int customerId;
     private String identityNumber;
     private int totalAccountBalance;
-    private int totalCardAmount;
-    private int totalInsurancePremium;
-    private int totalRemainingBalance;
+    private int monthCardAmount;
+    private int monthInsurancePremium;
+    private int totalRemainingLoan;
 }

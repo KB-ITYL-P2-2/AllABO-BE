@@ -13,7 +13,7 @@ public class UserFinancialsDTO {
     private int totalAssets;
     private int totalSavings;
     private int totalInvestment;
-    private int totalExpenses;
+    private int monthExpenses;
     private int totalLoan;
 
     // 계좌 내역 테이블 매핑

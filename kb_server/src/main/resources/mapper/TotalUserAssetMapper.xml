@@ -8,16 +8,16 @@
         <id property="customerId" 		column="customer_id" />
         <result property="identityNumber"		column="identity_number" />
         <result property="totalAccountBalance"		column="total_balance" />
-        <result property="totalCardAmount"		column="monthly_amount" />
-        <result property="totalInsurancePremium" 		column="monthly_premium" />
-        <result property="totalRemainingBalance" 		column="remaining_balance" />
+        <result property="monthCardAmount"		column="monthly_amount" />
+        <result property="monthInsurancePremium" 		column="monthly_premium" />
+        <result property="totalRemainingLoan" 		column="remaining_balance" />
     </resultMap>
     <select id="get" resultMap="userAssetMap" parameterType="String">
         SELECT
             z.customer_id,
             z.identity_number,
             COALESCE(SUM(a.total_balance), 0) AS total_balance,
-            COALESCE(SUM(c.month_amount), 0) AS monthly_amount,
+            c.month_amount AS monthly_amount,
             COALESCE(SUM(i.monthly_premium), 0) AS monthly_premium,
             COALESCE(SUM(l.remaining_balance), 0) AS remaining_balance
         FROM
@@ -29,7 +29,7 @@
         WHERE
             z.identity_number = #{identity}
         GROUP BY
-            z.customer_id, z.identity_number;
+            z.customer_id, z.identity_number, c.month_amount;
     </select>
     <resultMap id="user"  type="Customer">
         <id property="customerId" 		column="customer_id" />

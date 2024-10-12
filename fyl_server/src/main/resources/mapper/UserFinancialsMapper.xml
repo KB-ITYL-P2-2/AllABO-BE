@@ -8,6 +8,7 @@
             total_assets,
             total_savings,
             total_investment,
+<<<<<<< HEAD
             total_expenses,
             total_loan,
             account_type,
@@ -47,11 +48,25 @@
                    #{insuranceProduct},
                    #{insuranceStartDate},
                    #{totalPension}
+=======
+            month_expenses,
+            total_loan
+        )
+        VALUES (
+               #{id},
+               #{monthlyIncome},
+               #{totalAssets},
+               #{totalSavings},
+               #{totalInvestment},
+               #{monthExpenses},
+               #{totalLoan}
+>>>>>>> 730093b3620129594dab1c0287eac79d0b3da1dc
                )
     </insert>
 
 
 
+<<<<<<< HEAD
     <resultMap id="searchIdmap" type="UserFinancialsDTO">
         <id property="id" column="id" />
         <result property="monthlyIncome" column="monthly_income" />
@@ -74,6 +89,16 @@
         <result property="insuranceProduct" column="insurance_product" />
         <result property="insuranceStartDate" column="insurance_start_date" />
         <result property="totalPension" column="total_pension" />
+=======
+    <resultMap id="searchIdmap"  type="UserFinancialsDTO">
+        <id property="id" 		column="id" />
+        <result property="monthlyIncome"		column="monthly_income" />
+        <result property="totalAssets" 		column="total_assets" />
+        <result property="totalSavings"		column="total_savings" />
+        <result property="totalInvestment"	column="total_investment" />
+        <result property="monthExpenses"	column="month_expenses" />
+        <result property="totalLoan"	column="total_loan" />
+>>>>>>> 730093b3620129594dab1c0287eac79d0b3da1dc
     </resultMap>
 
 
@@ -94,7 +119,7 @@
             total_assets = #{totalAssets},
             total_savings = #{totalSavings},
             total_investment = #{totalInvestment},
-            total_expenses = #{totalExpenses},
+            month_expenses = #{monthExpenses},
             total_loan = #{totalLoan}
         WHERE
             id = #{id}
