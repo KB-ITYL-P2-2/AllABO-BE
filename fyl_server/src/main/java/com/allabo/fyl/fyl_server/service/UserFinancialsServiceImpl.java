@@ -35,14 +35,16 @@ public class UserFinancialsServiceImpl implements UserFinancialsService{
         return dto;
     }
 
-
     @Override
-    public void SaveFinancialsRatio(UserFinancialsRatioDAO dao) {
-        if (dao == null || dao.getId() == null){
-            throw new IllegalArgumentException("UserFinancialsRatio를 구하기 위한 id가 정상적이지 않거나 해당 객체를 찾을 수 없습니다.");
+    public void updateUserFinancial(UserFinancialsDTO dto) {
+        if(dto == null || dto.getId() == null){
+            throw new RuntimeException("Invalid UserFinancialsDTO data");
         }
-        userFinancialsRepository.saveUserFinancialsRatio(dao);//save
+        if(userFinancialsRepository.findUserFinancial(dto.getId()) != null){
+            userFinancialsRepository.updateUserFinancial(dto);
+        }
     }
+
 
 
 

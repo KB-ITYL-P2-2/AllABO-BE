@@ -38,7 +38,6 @@ public class CustomerController {
     )
     public ResponseEntity<String> idDupchk(@PathVariable("id") String id) {
         try {
-            //id에 해당하는 고객정보가 있을 때
             Customer c = service.showMyInfo(id);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미 존재하는 아이디입니다");
         } catch (FindException e) {
@@ -53,7 +52,7 @@ public class CustomerController {
 //            allowedHeaders = {"Content-Type", "Authorization"}
 //    )
     @PostMapping(value = "/signup" )
-    public ResponseEntity<Void> signup(@RequestBody Customer c) throws AddException {
+    public ResponseEntity<Void> signup(@RequestBody Customer c) throws AddException,RuntimeException {
         service.signup(c);
         return ResponseEntity.ok().build();
     }

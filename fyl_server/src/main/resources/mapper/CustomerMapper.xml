@@ -19,7 +19,7 @@
 <select id="findById"
         parameterType="string"
         resultType="Customer">
-    SELECT id,pwd,name,identity_number,phoneNumber,total_income FROM customer WHERE id = #{id}
+    SELECT id,pwd,name,identity_number,phone_number,total_income FROM customer WHERE id = #{id}
 </select>
 </mapper>
 
