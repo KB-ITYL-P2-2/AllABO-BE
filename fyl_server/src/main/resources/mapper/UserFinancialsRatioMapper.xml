@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.allabo.fyl.fyl_server.mapper.UserFinancialsRatioMapper">
+
+    <insert id="saveUserFinancialsRatio" parameterType="UserFinancialsRatioDAO">
+        INSERT INTO user_financials_ratio (
+            id,
+            asset_investment_ratio,
+            income_investment_ratio,
+            income_savings_ratio,
+            income_debt_ratio,
+            asset_savings_ratio,
+            asset_debt_ratio,
+            income_expenditure_ratio
+        )
+        VALUES (
+                   #{id},
+                   #{assetInvestmentRatio},
+                   #{incomeInvestmentRatio},
+                   #{incomeSavingsRatio},
+                   #{incomeDebtRatio},
+                   #{assetSavingsRatio},
+                   #{assetDebtRatio},
+                   #{incomeExpenditureRatio}
+               )
+    </insert>
+
+    <resultMap id="searchId"  type="UserFinancialsRatioDAO">
+        <id property="id" 		column="id" />
+        <result property="id"		column="id" />
+        <result property="assetInvestmentRatio"		column="asset_investment_ratio" />
+        <result property="incomeInvestmentRatio" 		column="income_investment_ratio" />
+        <result property="incomeSavingsRatio" 		column="income_savings_ratio" />
+        <result property="incomeDebtRatio"		column="income_debt_ratio" />
+        <result property="assetSavingsRatio"	column="asset_savings_ratio" />
+        <result property="assetDebtRatio"	column="asset_debt_ratio" />
+        <result property="incomeExpenditureRatio"	column="income_expenditure_ratio" />
+    </resultMap>
+
+    <select id="findById"
+            parameterType="string"
+            resultMap="searchId">
+        select *
+        from
+            user_financials_ratio
+        where id = #{id}
+    </select>
+
+    <update id="updateUserFinancialRatio" parameterType="UserFinancialsRatioDAO">
+        UPDATE user_financials_ratio
+        SET
+            asset_investment_ratio = #{assetInvestmentRatio},
+            income_investment_ratio = #{incomeInvestmentRatio},
+            income_savings_ratio = #{incomeSavingsRatio},
+            income_debt_ratio = #{incomeDebtRatio},
+            asset_savings_ratio = #{assetSavingsRatio},
+            asset_debt_ratio = #{assetDebtRatio},
+            income_expenditure_ratio = #{incomeExpenditureRatio}
+        WHERE
+            id = #{id}
+    </update>
+
+
+</mapper>
+
+

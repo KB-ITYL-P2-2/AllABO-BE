@@ -23,8 +23,4 @@ public class UserFinancialsRepository {
         userFinancialsMapper.updateUserFinancial(userFinancialsDTO);
     }
 
-    public void saveUserFinancialsRatio(UserFinancialsRatioDAO dao) {
-        userFinancialsMapper.saveUserFinancialsRatio(dao);
-    }
-
 }
