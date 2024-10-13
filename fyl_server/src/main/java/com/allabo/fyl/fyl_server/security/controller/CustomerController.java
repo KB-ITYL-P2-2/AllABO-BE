@@ -18,19 +18,6 @@ public class CustomerController {
     private final CustomerService service;
 
 
-//    @PostMapping(value="/login", produces = "text/html;charset=UTF-8")
-//    @ResponseBody
-//    @CrossOrigin(
-//            origins = "http://localhost:5173",
-//            allowCredentials = "true",
-//            methods={RequestMethod.GET,RequestMethod.POST,  RequestMethod.OPTIONS},
-//            allowedHeaders = {"Content-Type", "Authorization"}
-//    )
-//    public ResponseEntity<String> login(String id, String pwd, HttpSession session) throws FindException{
-//        service.login(id, pwd);
-//        session.setAttribute("loginedId", id);
-//        return ResponseEntity.ok("로그인 성공");
-//    }
 
     @GetMapping(value="/iddupchk/{id}", produces = "text/html;charset=UTF-8")
     @CrossOrigin(
@@ -45,12 +32,6 @@ public class CustomerController {
         }
     }
 
-    //    @CrossOrigin(
-//            origins = "http://localhost:5173",
-//            allowCredentials = "true",
-//            methods={RequestMethod.GET,RequestMethod.POST,  RequestMethod.OPTIONS},
-//            allowedHeaders = {"Content-Type", "Authorization"}
-//    )
     @PostMapping(value = "/signup" )
     public ResponseEntity<Void> signup(@RequestBody Customer c) throws AddException,RuntimeException {
         service.signup(c);
