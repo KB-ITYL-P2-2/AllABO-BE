@@ -26,7 +26,7 @@ public class CustomerController {
     public ResponseEntity<String> idDupchk(@PathVariable("id") String id) {
         try {
             Customer c = service.showMyInfo(id);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미 존재하는 아이디입니다");
+            return ResponseEntity.status(200).body("이미 존재하는 아이디입니다");
         } catch (FindException e) {
             return ResponseEntity.ok().build();
         }
