@@ -4,8 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.allabo.fyl.fyl_server.mapper.UserMapper">
 
-    <select id="selectUserProfile" resultType="com.allabo.fyl.fyl_server.dto.UserDto">
-        SELECT id, identity_number, phone_number
+    <select id="selectUserProfile" resultType="com.allabo.fyl.fyl_server.dto.UserDTO">
+        SELECT id, name, identity_number, phone_number
         FROM customer
         WHERE id = #{userId}
     </select>
