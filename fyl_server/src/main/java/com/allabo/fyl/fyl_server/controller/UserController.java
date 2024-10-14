@@ -2,10 +2,13 @@ package com.allabo.fyl.fyl_server.controller;
 
 import com.allabo.fyl.fyl_server.dto.UserDto;
 import com.allabo.fyl.fyl_server.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@Slf4j
 @RequestMapping("/api/user")
 public class UserController {
 
@@ -14,7 +17,12 @@ public class UserController {
 
     // 토큰에서 받은 userId로 사용자 정보 조회
     @GetMapping("/profile")
-    public UserDto getUserProfile(@RequestParam String userId) {
-        return userService.getUserProfile(userId);
+    public ResponseEntity<UserDto> getUserProfile(@RequestParam String userId) {
+        try {
+            UserDto userDto = userService.getUserProfile(userId);
+            return ResponseEntity.ok(userDto);
+        }catch(Exception e){
+            return ResponseEntity.internalServerError().body(null);
+        }
     }
 }

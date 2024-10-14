@@ -5,9 +5,9 @@
 <mapper namespace="com.allabo.fyl.fyl_server.mapper.UserMapper">
 
     <select id="selectUserProfile" resultType="com.allabo.fyl.fyl_server.dto.UserDto">
-        SELECT user_id, email, birth_date, phone_number
-        FROM users
-        WHERE user_id = #{userId}
+        SELECT id, identity_number, phone_number
+        FROM customer
+        WHERE id = #{userId}
     </select>
 
 </mapper>

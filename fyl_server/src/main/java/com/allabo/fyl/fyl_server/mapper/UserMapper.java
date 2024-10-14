@@ -7,8 +7,7 @@ import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface UserMapper {
-
     // SQL 쿼리로 사용자 정보 조회
-    @Select("SELECT id as userId, name as name, phone_number as phoneNumber FROM customer WHERE id = #{userId}")
+//    @Select("SELECT id as userId, name as name, phone_number as phoneNumber FROM customer WHERE id = #{userId}")
     UserDto selectUserProfile(@Param("userId") String userId);
 }
