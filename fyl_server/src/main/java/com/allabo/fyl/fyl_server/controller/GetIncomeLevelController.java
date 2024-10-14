@@ -77,10 +77,10 @@ public class GetIncomeLevelController {
         JsonNode contentNode = objectMapper.readTree(content);
         Map<String, Object> resultMap = new HashMap<>();
         Iterator<String> fieldNames = contentNode.fieldNames();
+
         while (fieldNames.hasNext()) {
             String fieldName = fieldNames.next();
             JsonNode fieldValueNode = contentNode.get(fieldName);
-//            resultMap.put(fieldName, fieldValue);
             if (fieldValueNode.isTextual()) {
                 resultMap.put(fieldName, fieldValueNode.asText());
             }
@@ -98,14 +98,15 @@ public class GetIncomeLevelController {
                 resultMap.put(fieldName, fieldValueNode.toString());
             }
         }
-
+        Object incomeLev=resultMap.get("소득분위(n분위)");
         GetIncomeLevelController.ReturnClass returnClass = new GetIncomeLevelController.ReturnClass();
         returnClass.setResultMap(resultMap);//사용자단에 리턴
         String jsonString = objectMapper.writeValueAsString(resultMap);//for saving to DB
         UserIncomeAnalyzeDAO resultDao = new UserIncomeAnalyzeDAO();
         resultDao.setId(user.getUsername());
         resultDao.setResults(jsonString);
-
+        resultDao.setIncomeLev(incomeLev.toString());
+        System.out.println(resultDao);
 
         if(userIncomeAnalyzeService.findById(user.getUsername())!=null){
             userIncomeAnalyzeService.updateUserIncomeAnalyze(resultDao);

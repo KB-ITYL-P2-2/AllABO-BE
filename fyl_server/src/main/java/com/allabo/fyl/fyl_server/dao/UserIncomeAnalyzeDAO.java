@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class UserIncomeAnalyzeDAO {
     private String id;
     private String results;
+    private String incomeLev;
 }
