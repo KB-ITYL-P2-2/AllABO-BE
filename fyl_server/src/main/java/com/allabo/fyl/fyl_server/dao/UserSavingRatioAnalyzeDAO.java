@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserIncomeAnalyzeDAO {
+public class UserSavingRatioAnalyzeDAO {
     private String id;
     private String results;
 }

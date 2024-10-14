@@ -3,33 +3,15 @@
 <mapper namespace="com.allabo.fyl.fyl_server.mapper.UserIncomeAnalyzeMapper">
 
     <insert id="saveUserIncomeAnalyze" parameterType="UserIncomeAnalyzeDAO">
-        INSERT INTO user_income_analyze (
-            id,
-            user_income_level,
-            income_comparison_analysis,
-            income_expense_ratio_difference,
-            expense_management_need,
-            overall_analysis
-        )
-        VALUES (
-                   #{id},
-                   #{userIncomeLevel},
-                   #{incomeComparisonAnalysis},
-                   #{incomeExpenseRatioDifference},
-                   #{expenseManagementNeed},
-                   #{overallAnalysis}
-               )
+        INSERT INTO user_income_analyze (id, results)
+        VALUES (#{id}, #{results})
     </insert>
 
 
 
     <resultMap id="userIncomeAnalysisMap" type="UserIncomeAnalyzeDAO">
         <id property="id" column="id" />
-        <result property="userIncomeLevel" column="user_income_level" />
-        <result property="incomeComparisonAnalysis" column="income_comparison_analysis" />
-        <result property="incomeExpenseRatioDifference" column="income_expense_ratio_difference" />
-        <result property="expenseManagementNeed" column="expense_management_need" />
-        <result property="overallAnalysis" column="overall_analysis" />
+        <result property="results" column="results" />
     </resultMap>
 
     <select id="findById" parameterType="string" resultMap="userIncomeAnalysisMap">
@@ -38,14 +20,11 @@
         WHERE id = #{id}
     </select>
 
-    <update id="updateUserIncomeAnalysis" parameterType="UserIncomeAnalyzeDAO">
+    <update id="updateUserIncomeAnalyze" parameterType="UserIncomeAnalyzeDAO">
         UPDATE user_income_analyze
         SET
-            user_income_level = #{userIncomeLevel},
-            income_comparison_analysis = #{incomeComparisonAnalysis},
-            income_expense_ratio_difference = #{incomeExpenseRatioDifference},
-            expense_management_need = #{expenseManagementNeed},
-            overall_analysis = #{overallAnalysis}
+            id = #{id},
+            results = #{results}
         WHERE
             id = #{id}
     </update>

@@ -22,4 +22,5 @@ public class UserIncomeAnalyzeRepository {
     public void updateUserIncomeAnalyze(UserIncomeAnalyzeDAO dao){
         userIncomeAnalyzeMapper.updateUserIncomeAnalyze(dao);
     }
+
 }
