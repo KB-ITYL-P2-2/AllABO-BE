@@ -25,4 +25,14 @@ public class UserController {
             return ResponseEntity.internalServerError().body(null);
         }
     }
+    // 사용자 프로필 수정 요청 처리
+    @PutMapping("/profile")
+    public ResponseEntity<String> updateUserProfile(@RequestBody UserDTO userDto) {
+        try {
+            userService.updateUserProfile(userDto);
+            return ResponseEntity.ok("프로필 정보 수정 성공");
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("프로필 정보 수정 실패");
+        }
+    }
 }

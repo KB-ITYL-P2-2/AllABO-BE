@@ -15,4 +15,8 @@ public class UserService {
 
         return userMapper.selectUserProfile(userId);
     }
+    public void updateUserProfile(UserDTO userDto) {
+        userMapper.updateUserProfile(userDto);
+    }
+
 }
