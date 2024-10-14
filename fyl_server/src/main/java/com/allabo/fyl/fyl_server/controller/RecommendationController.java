@@ -5,6 +5,7 @@ import com.allabo.fyl.fyl_server.dto.Recommendation;
 import com.allabo.fyl.fyl_server.service.RecommendationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import com.allabo.fyl.fyl_server.dao.DepositDAO;
 
 import java.util.List;
 
@@ -28,5 +29,14 @@ public class RecommendationController {
         return list;
     }
 
-//    @PostMapping("/loan")
+    // 설문 결과에 따른 맞춤 예적금 상품 추천 API
+    @PostMapping("/deposit")
+    public List<DepositDAO> getDepositRecommendations(
+            @RequestParam String depositType,
+            @RequestParam Integer minAmount,
+            @RequestParam(required = false) Boolean onlineOnly,
+            @RequestParam Integer duration,
+            @RequestParam Boolean preferInterestRate) {
+        return recommendationService.getDepositRecommendations(depositType, minAmount, onlineOnly, duration, preferInterestRate);
+    }
 }

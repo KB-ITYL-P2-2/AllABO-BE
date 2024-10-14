@@ -1,7 +1,7 @@
 package com.allabo.fyl.fyl_server.mapper;
 
 import com.allabo.fyl.fyl_server.dao.CreditCardDAO;
-import com.allabo.fyl.fyl_server.dao.LoanDAO;
+import com.allabo.fyl.fyl_server.dao.DepositDAO;
 import com.allabo.fyl.fyl_server.dto.Recommendation;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -17,9 +17,11 @@ public interface RecommendationMapper {
                                                         @Param("benefits") String benefits,
                                                         @Param("category") String category);
 
-    // 체크카드 추천을 위한 메서드
-    List<Recommendation> selectCheckCardRecommendations(@Param("benefits") String benefits,
-                                                        @Param("category") String category);
-
-//    List<LoanDAO> selectLoanRecommendations()
+    // 예적금 추천을 위한 메서드
+    List<DepositDAO> selectDepositRecommendations(
+            @Param("depositType") String depositType,
+            @Param("minAmount") Integer minAmount,
+                                                  @Param("onlineOnly") Boolean onlineOnly,
+                                                  @Param("duration") Integer duration,
+                                                  @Param("preferInterestRate") Boolean preferInterestRate);
 }
