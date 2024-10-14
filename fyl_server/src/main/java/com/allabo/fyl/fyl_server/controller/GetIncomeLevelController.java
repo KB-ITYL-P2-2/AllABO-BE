@@ -75,9 +75,7 @@ public class GetIncomeLevelController {
         }
 
         JsonNode contentNode = objectMapper.readTree(content);
-        Map<String, String> resultMap = new HashMap<>();
-
-
+        Map<String, Object> resultMap = new HashMap<>();
         Iterator<String> fieldNames = contentNode.fieldNames();
         while (fieldNames.hasNext()) {
             String fieldName = fieldNames.next();
@@ -88,13 +86,12 @@ public class GetIncomeLevelController {
             }
             // 배열일 경우
             else if (fieldValueNode.isArray()) {
-                // 배열 요소들을 쉼표로 구분된 문자열로 변환
+                // 배열 요소를 List<String>으로 변환하여 저장
                 List<String> arrayValues = new ArrayList<>();
                 for (int i = 0; i < fieldValueNode.size(); i++) {
                     arrayValues.add(fieldValueNode.get(i).asText());
                 }
-                // 배열을 쉼표로 이어붙인 문자열로 저장
-                resultMap.put(fieldName, String.join(", ", arrayValues));
+                resultMap.put(fieldName, arrayValues); // 배열 형태로 저장
             }
             // 다른 값일 경우 (숫자, 객체 등)
             else {
@@ -119,12 +116,12 @@ public class GetIncomeLevelController {
     }
 
     public static class ReturnClass {
-        private Map<String, String> resultMap;
+        private Map<String, Object> resultMap;
 
-        public Map<String, String> getResultMap() {
+        public Map<String, Object> getResultMap() {
             return resultMap;
         }
-        public void setResultMap(Map<String, String> resultMap) {
+        public void setResultMap(Map<String, Object> resultMap) {
             this.resultMap = resultMap;
         }
     }
