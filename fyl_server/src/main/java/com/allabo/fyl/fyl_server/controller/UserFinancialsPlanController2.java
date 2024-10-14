@@ -80,7 +80,6 @@ public class UserFinancialsPlanController2 {
         return returnClass;
     }
 
-    // OpenAI API 요청 본문 생성 메서드
     private String createRequestBody(UserFinancialsDTO dto) {
         // 요청 본문에 명확하게 JSON 형식을 요구
         String content = "사용자의 자산 현황은 다음과 같습니다: " +
@@ -91,27 +90,15 @@ public class UserFinancialsPlanController2 {
                 "5. 사용자 총 투자 평가 금액: " + dto.getTotalInvestment() + "원, " +
                 "6. 사용자 총 연금 적립 금액: 1500000000원, " +
                 "7. 사용자 총 자산: " + dto.getTotalAssets() + "원. " +
-                "주어진 데이터를 기반으로 사용자의 재무 상황을 분석하고, JSON 형식으로 다음과 같은 전략을 제공해 주세요: {" +
-                "\"사용자_성향_분석\": {" +
-                "   \"종합_투자_성향(#키워드 나열)\": \"\"," +
-                "   \"권장_자산_배분\": {" +
-                "       \"현금성_자산\": 0," +
-                "       \"안전자산\": 0," +
-                "       \"위험자산\": 0" +
-                "   }" +
-                "}," +
+                "주어진 데이터를 기반으로 사용자의 재무 상황을 분석하고, JSON 형식으로 다음과 같은 전략을 제공해 주세요. 다른말 생략하고 JSON만 딱 리턴해주세요. 이스케이프문 없이 키:값 형태로만 뽑아줘. : {" +
                 "\"개선된_전략_요약\": {" +
                 "   \"지출_조정\": \"월 지출을 ?% (감소/유지/증가)하여 {개선 방안}을 고려해야 합니다.\"," +
                 "   \"저축_전략\": {" +
                 "       \"목표_저축률\": 0," +
-                "       \"권장_저축_상품\": []" +
+                "       \"권장_저축_상품(최대 3개)\": []" +
                 "   }," +
                 "   \"투자_전략\": {" +
                 "       \"목표_투자_비율\": 0," +
-                "       \"권장_포트폴리오\": {" +
-                "           \"현금성_자산\": 0," +
-                "           \"안전자산\": 0," +
-                "           \"위험자산\": 0" +
                 "       }," +
                 "       \"권장_투자_상품\": []" +
                 "   }," +
@@ -121,36 +108,33 @@ public class UserFinancialsPlanController2 {
                 "       \"금리_재조정\": \"\"," +
                 "       \"추가_상환_전략\": \"\"" +
                 "   }" +
-                "}," +
-                "\"주요_재무_지표\": {" +
-                "   \"부채비율\": 0," +
-                "   \"저축률\": 0," +
-                "   \"투자수익률\": 0," +
-                "   \"부채상환비율\": 0" +
-                "}," +
-                "\"결론_및_권고사항(#키워드)\": \"\"" +
+                "}" +
                 "}";
 
         return String.format("{\"model\": \"gpt-4\", \"messages\": [{\"role\": \"user\", \"content\": \"%s\"}], \"temperature\": 0, \"max_tokens\": 500, \"stop\": null}", content.replace("\"", "\\\"").replace("\n", "\\n"));
     }
 
-
-
-    // 응답에서 content 추출 메서드
+    // OpenAI API 응답에서 content 부분을 파싱하여 반환하는 메서드 수정
     private String extractContentFromResponse(String responseBody) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode rootNode = objectMapper.readTree(responseBody);
         JsonNode choicesNode = rootNode.path("choices");
+
         if (choicesNode.isArray() && choicesNode.size() > 0) {
             JsonNode firstChoice = choicesNode.get(0);
             JsonNode messageNode = firstChoice.path("message");
             JsonNode contentNode = messageNode.path("content");
+
             if (contentNode.isTextual()) {
+                // 이스케이프 문자를 처리하지 않고 JSON으로 직접 반환
                 return contentNode.asText();
             }
         }
         throw new Exception("응답에서 content를 찾을 수 없습니다.");
     }
+
+
+
 
     public static class ReturnClass {
         String content;
