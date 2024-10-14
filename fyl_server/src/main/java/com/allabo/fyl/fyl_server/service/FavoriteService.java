@@ -14,17 +14,17 @@ public class FavoriteService {
     private FavoriteMapper favoriteMapper;
 
     // 즐겨찾기 추가
-    public void addFavorite(Long userId, Long productId, String productType) {
-        favoriteMapper.insertFavorite(userId, productId, productType);
+    public void addFavorite(String userId, String productId, int productNum) {
+        favoriteMapper.insertFavorite(userId, productId, productNum);
     }
 
     // 즐겨찾기 삭제
-    public void removeFavorite(Long userId, Long productId, String productType) {
-        favoriteMapper.deleteFavorite(userId, productId, productType);
+    public void removeFavorite(String userId, String productId, int productNum) {
+        favoriteMapper.deleteFavorite(userId, productId, productNum);
     }
 
     // 즐겨찾기 목록 조회
-    public List<Favorite> getFavorites(Long userId) {
+    public List<Favorite> getFavorites(String userId) {
         return favoriteMapper.getFavoritesByUserId(userId);
     }
 }
