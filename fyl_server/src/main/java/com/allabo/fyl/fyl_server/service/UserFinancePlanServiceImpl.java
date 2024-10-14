@@ -21,7 +21,9 @@ public class UserFinancePlanServiceImpl implements UserFinancePlanService {
     @Override
     public UserFinancialsDTO FindUserFinancials(String username) {
         // 실제 데이터베이스에서 사용자 정보를 조회
-        return userFinancialsMapper.findById(username);
+        UserFinancialsDTO dto = userFinancialsMapper.findById(username);
+        System.out.println("여긴 정보 조회얌~~~~~~~~~~~~~~~~~~~~~~: " + dto);
+        return dto;
     }
 
     // 사용자 데이터를 바탕으로 자산 분석을 위한 계산 로직
