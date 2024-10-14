@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.allabo.fyl.fyl_server.mapper.UserIncomeAnalyzeMapper">
+
+    <insert id="saveUserIncomeAnalyze" parameterType="UserIncomeAnalyzeDAO">
+        INSERT INTO user_income_analyze (
+            id,
+            user_income_level,
+            income_comparison_analysis,
+            income_expense_ratio_difference,
+            expense_management_need,
+            overall_analysis
+        )
+        VALUES (
+                   #{id},
+                   #{userIncomeLevel},
+                   #{incomeComparisonAnalysis},
+                   #{incomeExpenseRatioDifference},
+                   #{expenseManagementNeed},
+                   #{overallAnalysis}
+               )
+    </insert>
+
+
+
+    <resultMap id="userIncomeAnalysisMap" type="UserIncomeAnalyzeDAO">
+        <id property="id" column="id" />
+        <result property="userIncomeLevel" column="user_income_level" />
+        <result property="incomeComparisonAnalysis" column="income_comparison_analysis" />
+        <result property="incomeExpenseRatioDifference" column="income_expense_ratio_difference" />
+        <result property="expenseManagementNeed" column="expense_management_need" />
+        <result property="overallAnalysis" column="overall_analysis" />
+    </resultMap>
+
+    <select id="findById" parameterType="string" resultMap="userIncomeAnalysisMap">
+        SELECT *
+        FROM user_income_analyze
+        WHERE id = #{id}
+    </select>
+
+    <update id="updateUserIncomeAnalysis" parameterType="UserIncomeAnalyzeDAO">
+        UPDATE user_income_analyze
+        SET
+            user_income_level = #{userIncomeLevel},
+            income_comparison_analysis = #{incomeComparisonAnalysis},
+            income_expense_ratio_difference = #{incomeExpenseRatioDifference},
+            expense_management_need = #{expenseManagementNeed},
+            overall_analysis = #{overallAnalysis}
+        WHERE
+            id = #{id}
+    </update>
+
+
+</mapper>
+
+
