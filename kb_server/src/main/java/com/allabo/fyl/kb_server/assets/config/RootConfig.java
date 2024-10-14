@@ -34,11 +34,8 @@ public class RootConfig {
     @Value("${jdbc.driver}") String driver;
     @Value("${jdbc.url}") String url;
     @Value("${jdbc.username}") String username;
-<<<<<<< Updated upstream
     @Value("{jdbc.password}") String password;
-=======
-    @Value("${jdbc.password}") String password;
->>>>>>> Stashed changes
+
 
     @Bean
     public DataSource dataSource() {
