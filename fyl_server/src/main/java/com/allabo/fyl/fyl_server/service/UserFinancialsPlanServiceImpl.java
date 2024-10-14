@@ -2,18 +2,18 @@ package com.allabo.fyl.fyl_server.service.impl;
 
 import com.allabo.fyl.fyl_server.dto.UserFinancialsDTO;
 import com.allabo.fyl.fyl_server.mapper.UserFinancialsMapper;
-import com.allabo.fyl.fyl_server.service.UserFinancePlanService;
+import com.allabo.fyl.fyl_server.service.UserFinancialsPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserFinancePlanServiceImpl implements UserFinancePlanService {
+public class UserFinancialsPlanServiceImpl implements UserFinancialsPlanService {
 
     private String financePlanResult; // 자산 설계 결과 저장
     private final UserFinancialsMapper userFinancialsMapper;
 
     @Autowired
-    public UserFinancePlanServiceImpl(UserFinancialsMapper userFinancialsMapper) {
+    public UserFinancialsPlanServiceImpl(UserFinancialsMapper userFinancialsMapper) {
         this.userFinancialsMapper = userFinancialsMapper;
     }
 

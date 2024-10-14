@@ -2,7 +2,7 @@ package com.allabo.fyl.fyl_server.controller;
 
 import com.allabo.fyl.fyl_server.dto.UserFinancialsDTO;
 import com.allabo.fyl.fyl_server.security.vo.MyUser;
-import com.allabo.fyl.fyl_server.service.UserFinancePlanService;
+import com.allabo.fyl.fyl_server.service.UserFinancialsPlanService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -25,10 +25,10 @@ public class UserFinancialsPlanController {
     @Value("${openai.api-key}")
     private String openAiApiKey;
 
-    private final UserFinancePlanService userFinancePlanService;
+    private final UserFinancialsPlanService userFinancialsPlanService;
 
-    public UserFinancialsPlanController(UserFinancePlanService userFinancePlanService) {
-        this.userFinancePlanService = userFinancePlanService;
+    public UserFinancialsPlanController(UserFinancialsPlanService userFinancialsPlanService) {
+        this.userFinancialsPlanService = userFinancialsPlanService;
     }
 
     @PostMapping("/plan")
@@ -36,7 +36,7 @@ public class UserFinancialsPlanController {
         log.info("재무 계획 요청 받음. 인증 정보: {}", authentication);
 
         MyUser user = (MyUser) authentication.getPrincipal();
-        UserFinancialsDTO dto = userFinancePlanService.FindUserFinancials(user.getUsername());
+        UserFinancialsDTO dto = userFinancialsPlanService.FindUserFinancials(user.getUsername());
         log.info("사용자 재무 데이터 조회 완료: {}", user.getUsername());
 
         // RestTemplate 인스턴스 생성
@@ -48,7 +48,7 @@ public class UserFinancialsPlanController {
         headers.set("Authorization", "Bearer " + openAiApiKey);
 
         // JSON 요청 본문 데이터 구성
-        String content = "사용자의 자산 현황은 다음과 같습니다: " +
+        String content = "사용자의 자산 현황: " +
                 "1. 사용자 월 소득: " + dto.getMonthlyIncome() + "원, " +
                 "2. 사용자 월 지출: " + dto.getMonthExpenses() + "원, " +
                 "3. 사용자 저축 금액: " + dto.getTotalSavings() + "원 (저축 상품: KB내맘대로적금, 저축 시작일: 2023년 1월 1일, 저축 만기일: 2028년 1월 1일, 저축 이자율: 2.5%), " +
@@ -56,7 +56,7 @@ public class UserFinancialsPlanController {
                 "5. 사용자 총 투자 평가 금액: " + dto.getTotalInvestment() + "원, " +
                 "6. 사용자 총 연금 적립 금액: 1500000000원, " +
                 "7. 사용자 총 자산: " + dto.getTotalAssets() + "원. " +
-                "주어진 데이터를 기반으로 사용자의 재무 상황을 분석하고, JSON 형식으로 다음과 같은 전략을 제공해 주세요. 다른말 생략하고 JSON만 딱 리턴해주세요. 이스케이프문 없이 키:값 형태로만 뽑아줘. : {" +
+                "주어진 데이터를 기반으로 사용자의 재무 상황을 분석하고, JSON 형식으로 다음과 같은 전략을 제공해 줘. 다른말 생략하고 JSON만 딱 리턴해주세요. 이스케이프문 없이 키:값 형태로만 뽑아줘. : {" +
                 "\"개선된_전략_요약\": {" +
                 "   \"지출_조정\": \"월 지출을 ?% (감소/유지/증가)하여 {개선 방안}을 고려해야 합니다.\"," +
                 "   \"저축_전략\": {" +
