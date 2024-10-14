@@ -51,7 +51,8 @@ public class MyTokenCheckFilter extends OncePerRequestFilter {
                 !path.startsWith("/assets/saving") &&
                 !path.startsWith("/assets/income-level") &&
                 !path.startsWith("/assets/saving-ratio") &&
-                !path.startsWith("/assets/expenditure"))
+                !path.startsWith("/assets/expenditure") &&
+                !path.startsWith("/assets/portfolio"))
         {
             log.info("skip MyTokenCheckFilterfilter.....path:{}", path);
             filterChain.doFilter(request, response);
