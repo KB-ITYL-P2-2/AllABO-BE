@@ -20,11 +20,11 @@
         WHERE id = #{id}
     </select>
 
-    <update id="updateUserIncomeAnalysis" parameterType="UserIncomeAnalyzeDAO">
+    <update id="updateUserIncomeAnalyze" parameterType="UserIncomeAnalyzeDAO">
         UPDATE user_income_analyze
         SET
             id = #{id},
-            results = #{results},
+            results = #{results}
         WHERE
             id = #{id}
     </update>

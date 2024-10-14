@@ -45,7 +45,7 @@ public class MyTokenCheckFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         String path = request.getRequestURI();
         //요청 URI가 "/assets/analyze"로 시작하지 않으면, 토큰 검증을 건너뛰고 필터 체인을 계속 진행
-        if(!path.startsWith("/assets/analyze")){
+        if(!path.startsWith("/assets/analyze")||!path.startsWith("/assets/loan")||!path.startsWith("/assets/ratio")||!path.startsWith("/assets/saving")||!path.startsWith("/assets/income-level")||!path.startsWith("/assets/saving-ratio")){
             log.info("skip MyTokenCheckFilterfilter.....path:{}", path);
             filterChain.doFilter(request, response);
             return;
