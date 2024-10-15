@@ -1,10 +1,7 @@
 package com.allabo.fyl.fyl_server.security.filter;
-import com.allabo.fyl.fyl_server.dto.UserFinancialsDTO;
-import com.allabo.fyl.fyl_server.repository.UserFinancialsRepository;
 import com.allabo.fyl.fyl_server.security.exception.AccessTokenException;
 import com.allabo.fyl.fyl_server.security.mapper.CustomerMapper;
 import com.allabo.fyl.fyl_server.security.util.JWTUtil;
-import com.allabo.fyl.fyl_server.security.vo.Customer;
 import com.allabo.fyl.fyl_server.service.UserFinancialsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -12,14 +9,12 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpServerErrorException;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -27,6 +22,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,20 +35,17 @@ public class MyTokenCheckFilter extends OncePerRequestFilter {
     private final CustomerMapper customerMapper;  // CustomerMapper 인터페이스 from mybatis to Spring 주입
     private final UserFinancialsService service;
 
+    @Value("${protected.uris:}")
+    private String[] protectedUris;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
         String path = request.getRequestURI();
+
         //요청 URI가 "/assets/analyze"로 시작하지 않으면, 토큰 검증을 건너뛰고 필터 체인을 계속 진행
-        if (!path.startsWith("/assets/analyze") &&
-                !path.startsWith("/assets/loan") &&
-                !path.startsWith("/assets/ratio") &&
-                !path.startsWith("/assets/saving") &&
-                !path.startsWith("/assets/income-level") &&
-                !path.startsWith("/assets/saving-ratio") &&
-                !path.startsWith("/assets/expenditure") &&
-                !path.startsWith("/assets/portfolio"))
+        if (protectedUris == null || Arrays.stream(protectedUris).noneMatch(path::startsWith))
         {
             log.info("skip MyTokenCheckFilterfilter.....path:{}", path);
             filterChain.doFilter(request, response);

@@ -1,6 +1,7 @@
 package com.allabo.fyl.fyl_server.mapper;
 
 import com.allabo.fyl.fyl_server.dto.UserDTO;
+import com.allabo.fyl.fyl_server.dto.UserResetDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -12,4 +13,5 @@ public interface UserMapper {
 
 //    @Update("UPDATE customer SET name=#{name}, identity_number=#{identityNumber}, phone_number=#{phoneNumber} WHERE id=#{id}")
     void updateUserProfile(UserDTO userDto);
+    void updateUserPassword(@Param("id") String id, @Param("pwd") String newPassword);
 }

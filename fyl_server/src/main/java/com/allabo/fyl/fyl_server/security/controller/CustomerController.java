@@ -18,7 +18,6 @@ public class CustomerController {
     private final CustomerService service;
 
 
-
     @GetMapping(value="/iddupchk/{id}", produces = "text/html;charset=UTF-8")
     @CrossOrigin(
             origins = "http://localhost:5173"
