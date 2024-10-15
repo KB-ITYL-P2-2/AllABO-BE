@@ -4,8 +4,26 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.allabo.fyl.fyl_server.mapper.RecommendationMapper">
+
+    <!-- 신용카드 resultMap -->
+    <resultMap id="CreditCardResultMap" type="com.allabo.fyl.fyl_server.dto.Recommendation">
+        <result property="id" column="credit_card_id"/>
+        <result property="cardName" column="credit_card_name"/>
+        <result property="annualFee" column="credit_card_annual_fee"/>
+        <result property="category" column="credit_card_category"/>
+        <result property="benefits" column="credit_card_keyword"/>
+    </resultMap>
+
+    <!-- 체크카드 resultMap -->
+    <resultMap id="CheckCardResultMap" type="com.allabo.fyl.fyl_server.dto.Recommendation">
+        <result property="id" column="check_card_id"/>
+        <result property="cardName" column="check_card_name"/>
+        <result property="category" column="check_card_category"/>
+        <result property="benefits" column="check_card_keyword"/>
+    </resultMap>
+
     <!-- 신용카드 필터링 쿼리 -->
-    <select id="selectCreditCardRecommendations" resultType="CreditCardDAO">
+    <select id="selectCreditCardRecommendations" resultMap="CreditCardResultMap">
         SELECT * FROM credit_card_products
         WHERE 1 = 1
         <if test="annualFeeMin != null and annualFeeMax != null">
@@ -20,7 +38,7 @@
     </select>
 
     <!-- 체크카드 필터링 쿼리 -->
-    <select id="selectCheckCardRecommendations" resultType="CheckCardDAO">
+    <select id="selectCheckCardRecommendations" resultMap="CheckCardResultMap">
         SELECT * FROM check_card_products
         WHERE 1 = 1
         <if test="benefits != null and benefits != ''">
@@ -30,50 +48,5 @@
             AND check_card_category LIKE CONCAT('%', #{category}, '%')
         </if>
     </select>
-    <!-- 예적금 필터링 쿼리 -->
-    <select id="selectDepositRecommendations" resultType="DepositDAO">
-
-        SELECT * FROM deposit_products
-        WHERE 1=1
-
-        <!-- 1. 저축 방식에 따른 필터링 -->
-        <if test="depositType == '예금'">
-            AND deposit_category = '예금'
-        </if>
-        <if test="depositType == '적금'">
-            AND deposit_category = '적금'
-        </if>
-
-        <!-- 2. 최소 예치금 필터링 -->
-        <if test="minAmount == 0">
-            AND deposit_min_amount <![CDATA[>=]]> 1000000
-        </if>
-        <if test="minAmount == 1">
-            AND deposit_min_amount <![CDATA[<=]]> 1000000
-        </if>
-
-<!--        &lt;!&ndash; 3. 온라인 가입 여부에 따른 필터링 &ndash;&gt;-->
-        <if test="onlineOnly == true">
-            AND deposit_online = 'true'
-        </if>
-        <if test="onlineOnly == false">
-            AND deposit_online = 'false'
-        </if>
-
-<!--        &lt;!&ndash; 4. 상품 가입 기간에 따른 필터링 &ndash;&gt;-->
-        <if test="duration != null">
-            AND deposit_duration <![CDATA[>=]]> #{duration}
-        </if>
-
-<!--        &lt;!&ndash; 5. 저축 성향에 따른 필터링 &ndash;&gt;-->
-        <if test="preferInterestRate == true">
-            AND deposit_prefer_interest_rate = 'true'
-        </if>
-        <if test="preferInterestRate == false">
-            AND deposit_prefer_interest_rate = 'false'
-        </if>
-
-    </select>
-
 
 </mapper>

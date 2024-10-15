@@ -4,6 +4,7 @@ import com.allabo.fyl.fyl_server.dao.FinancialsPlanDAO;
 import com.allabo.fyl.fyl_server.dto.UserFinancialsDTO;
 import com.allabo.fyl.fyl_server.repository.UserFinancialsRepository;
 import com.allabo.fyl.fyl_server.repository.UserFinancialsPlanRepository;
+import com.allabo.fyl.fyl_server.repository.UserFinancialsValueRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,13 +15,15 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserFinancialsPlanServiceImpl implements UserFinancialsPlanService {
 
-    private final UserFinancialsRepository userFinancialsRepository;
+
+    private final UserFinancialsValueRepository userFinancialsValueRepository;
     private final UserFinancialsPlanRepository userFinancialsPlanRepository;
 
     @Override
     public Optional<UserFinancialsDTO> findUserFinancials(String username) {
         log.info("Attempting to find user financials for username: {}", username);
-        return userFinancialsRepository.findUserFinancial(username);
+
+        return userFinancialsValueRepository.findUserFinancial(username);
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.allabo.fyl.fyl_server.repository;
 
 import com.allabo.fyl.fyl_server.dao.UserFinancialsRatioDAO;
 import com.allabo.fyl.fyl_server.dto.UserFinancialsDTO;
-import com.allabo.fyl.fyl_server.dto.UserPortfolioDTO;
 import com.allabo.fyl.fyl_server.mapper.UserFinancialsMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,50 +16,20 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserFinancialsRepository {
     private final UserFinancialsMapper userFinancialsMapper;
-
-    @Transactional
     public void saveUserFinancial(UserFinancialsDTO userFinancialDTO) {
-        try {
-            userFinancialsMapper.insertUserFinancial(userFinancialDTO);
-            log.info("User financial data saved successfully for user: {}", userFinancialDTO.getId());
-        } catch (DataAccessException e) {
-            log.error("Error saving user financial data for user: {}", userFinancialDTO.getId(), e);
-            throw new RuntimeException("Error saving user financial data", e);
-        }
+        userFinancialsMapper.insertUserFinancial(userFinancialDTO);
     }
 
-    public Optional<UserFinancialsDTO> findUserFinancial(String id) {
-        try {
-            UserFinancialsDTO dto = userFinancialsMapper.findById(id);
-            log.info("User financial data retrieved for user: {}", id);
-            return Optional.ofNullable(dto);
-        } catch (DataAccessException e) {
-            log.error("Error retrieving user financial data for user: {}", id, e);
-            return Optional.empty();
-        }
-    }
-    public UserPortfolioDTO findUserPortfolio(String id) {
-        return userFinancialsMapper.portfolioFindById(id);
+    public UserFinancialsDTO findUserFinancial(String id) {
+        return userFinancialsMapper.findById(id);
     }
 
-    @Transactional
     public void updateUserFinancial(UserFinancialsDTO userFinancialsDTO) {
-        try {
-            userFinancialsMapper.updateUserFinancial(userFinancialsDTO);
-            log.info("User financial data updated successfully for user: {}", userFinancialsDTO.getId());
-        } catch (DataAccessException e) {
-            log.error("Error updating user financial data for user: {}", userFinancialsDTO.getId(), e);
-            throw new RuntimeException("Error updating user financial data", e);
-        }
+        userFinancialsMapper.updateUserFinancial(userFinancialsDTO);
     }
-    @Transactional
+
     public void saveUserFinancialsRatio(UserFinancialsRatioDAO dao) {
-        try {
-            userFinancialsMapper.saveUserFinancialsRatio(dao);
-            log.info("User financials ratio saved successfully for user: {}", dao.getId());
-        } catch (DataAccessException e) {
-            log.error("Error saving user financials ratio for user: {}", dao.getId(), e);
-            throw new RuntimeException("Error saving user financials ratio", e);
-        }
+        userFinancialsMapper.saveUserFinancialsRatio(dao);
     }
+
 }
