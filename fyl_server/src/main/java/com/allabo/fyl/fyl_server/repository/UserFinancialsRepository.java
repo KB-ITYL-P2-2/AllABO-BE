@@ -27,4 +27,6 @@ public class UserFinancialsRepository {
         userFinancialsMapper.updateUserFinancial(userFinancialsDTO);
     }
 
+
+
 }
