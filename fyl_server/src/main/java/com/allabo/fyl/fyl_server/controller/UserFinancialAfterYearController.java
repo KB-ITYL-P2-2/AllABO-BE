@@ -28,6 +28,7 @@ public class UserFinancialAfterYearController {
     @Value("${openai.api-key}")
     private String openAiApiKey;
 
+
     private final UserFinancialsPlanService userFinancialsPlanService;
     private final RestTemplate restTemplate;
 
@@ -46,6 +47,10 @@ public class UserFinancialAfterYearController {
         UserFinancialsValueDTO dto = userFinancialsPlanService.findUserFinancials(user.getUsername())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User financials not found"));
 
+        log.info("##########################");
+        log.info("financialPlan: {}", financialPlan);
+        log.info("dto: {}", dto);
+        log.info("##########################");
         log.info("사용자 1년후 그래프 조회 완료: {}", user.getUsername());
 
         String content = createContentForOpenAI(dto, financialPlan);
@@ -106,26 +111,30 @@ public class UserFinancialAfterYearController {
                 "  },\n" +
                 "  \"전략_비교_분석\": {\n" +
                 "    \"총_자산_변화\": {\n" +
-                "      \"현재_전략\": \"?만원 (증가/감소/차이없음), ?% (상승/하락/차이없음)\",\n" +
-                "      \"개선된_전략\": \"?만원 (증가/감소/차이없음), ?% (상승/하락/차이없음)\",\n" +
-                "      \"차이\": \"?만원 더 (증가/감소/차이없음), ?% 더 (상승/하락/차이없음)\"\n" +
+                "      \"현재_전략\": \"?% (상승/하락/차이없음)\",\n" +
+                "      \"개선된_전략\": \"?% (상승/하락/차이없음)\",\n" +
+                "      \"차이\": \"?\"\n" +
+                "      \"상승 여부\": (true|false)" +
                 "    },\n" +
                 "    \"부채_변화\": {\n" +
-                "      \"현재_전략\": \"?만원 (증가/감소/차이없음), ?% (상승/하락/차이없음)\",\n" +
-                "      \"개선된_전략\": \"?만원 (증가/감소/차이없음), ?% (상승/하락/차이없음)\",\n" +
-                "      \"차이\": \"?만원 더 (증가/감소/차이없음), ?% 더 (상승/하락/차이없음)\"\n" +
+                "      \"현재_전략\": \"?% (상승/하락/차이없음)\",\n" +
+                "      \"개선된_전략\": \"?% (상승/하락/차이없음)\",\n" +
+                "      \"차이\": \"?\"\n" +
+                "      \"상승 여부\": (true|false)" +
                 "    },\n" +
                 "    \"순_자산_변화\": {\n" +
-                "      \"현재_전략\": \"?만원 (증가/감소/차이없음), ?% (상승/하락/차이없음)\",\n" +
-                "      \"개선된_전략\": \"?만원 (증가/감소/차이없음), ?% (상승/하락/차이없음)\",\n" +
-                "      \"차이\": \"?만원 더 (증가/감소/차이없음), ?% 더 (상승/하락/차이없음)\"\n" +
+                "      \"현재_전략\": \"?% (상승/하락/차이없음)\",\n" +
+                "      \"개선된_전략\": \"?% (상승/하락/차이없음)\",\n" +
+                "      \"차이\": \"?\"\n" +
+                "      \"상승 여부\": (true|false)" +
                 "    },\n" +
                 "    \"투자_성과\": {\n" +
-                "      \"현재_전략\": \"?만원 (증가/감소/차이없음), ?% (상승/하락/차이없음)\",\n" +
-                "      \"개선된_전략\": \"?만원 (증가/감소/차이없음), ?% (상승/하락/차이없음)\",\n" +
-                "      \"차이\": \"?만원 더 (증가/감소/차이없음), ?% 더 (상승/하락/차이없음)\"\n" +
+                "      \"현재_전략\": \"?% (상승/하락/차이없음)\",\n" +
+                "      \"개선된_전략\": \"?% (상승/하락/차이없음)\",\n" +
+                "      \"차이\": \"?\"\n" +
+                "      \"상승 여부\": (true|false)" +
                 "    },\n" +
-                "    \"종합_평가(#키워드)\": \"#키워드 #키워드 하며 #키워드 #키워드 하는 것이 좋겠습니다.\"\n" +
+                "    \"종합_평가(#키워드)\": \"#키워드 #키워드 #키워드 #키워드\"\n" +
                 "  }\n" +
                 "}";
     }
