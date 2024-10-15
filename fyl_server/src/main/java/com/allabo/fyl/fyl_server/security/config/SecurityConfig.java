@@ -90,7 +90,6 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .antMatchers("/resources/**").permitAll()
                 .antMatchers("/admin").access("hasRole('ROLE_ADMIN')")
-                .antMatchers("/assets/plan").authenticated() // `/assets/plan`는 인증된 사용자만 접근 가능
                 .anyRequest().permitAll()
 
                 .and()
