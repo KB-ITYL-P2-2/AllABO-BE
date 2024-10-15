@@ -38,7 +38,6 @@ public class UserController {
     @PutMapping("/profile")
     public ResponseEntity<String> updateUserProfile(Authentication authentication) {
         UserDTO userDto = userService.getUserProfile(authentication.getName());
-
         try {
             userService.updateUserProfile(userDto);
             return ResponseEntity.ok("프로필 정보 수정 성공");
