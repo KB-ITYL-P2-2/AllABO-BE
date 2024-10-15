@@ -1,6 +1,7 @@
 package com.allabo.fyl.fyl_server.controller;
 
 import com.allabo.fyl.fyl_server.dto.FavoriteProductDTO;
+import com.allabo.fyl.fyl_server.entity.Favorite;
 import com.allabo.fyl.fyl_server.service.FavoriteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +30,22 @@ public class FavoriteController {
         favoriteService.removeFavorite(authentication.getName(), productId, productNum);
     }
 
-    // 즐겨찾기 목록 조회 (상품 정보 포함)
+    // 즐겨찾기 목록 조회
     @GetMapping("/list")
+    public ResponseEntity<List<Favorite>> getFavorites(Authentication authentication) {
+        List<Favorite> favorites = favoriteService.getFavoritesByUserId(authentication.getName());
+        System.out.println(favorites);
+        System.out.println(favorites.size());
+        if (favorites.size() > 0) {
+            System.out.println("성공 요청이야#################");
+            return ResponseEntity.ok(favorites);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
+    }
+
+    // 즐겨찾기 목록 조회 (상품 정보 포함)
+    @GetMapping("/mapping-list")
     public ResponseEntity<List<FavoriteProductDTO>> getFavoritesWithProducts(Authentication authentication) {
         System.out.println("/api/favorites/list ~~~ #################################");
         System.out.println(authentication.getName());
