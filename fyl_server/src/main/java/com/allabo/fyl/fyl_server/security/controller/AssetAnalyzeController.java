@@ -1,31 +1,40 @@
 package com.allabo.fyl.fyl_server.security.controller;
-import org.springframework.beans.factory.annotation.Value;
+
 import com.allabo.fyl.fyl_server.dto.UserFinancialsDTO;
+import com.allabo.fyl.fyl_server.security.mapper.CustomerMapper;
 import com.allabo.fyl.fyl_server.security.util.JWTUtil;
+import com.allabo.fyl.fyl_server.security.vo.Customer;
 import com.allabo.fyl.fyl_server.security.vo.MyUser;
 import com.allabo.fyl.fyl_server.service.UserFinancialsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @Slf4j
 public class AssetAnalyzeController {
+    @Autowired
+    private CustomerMapper customerMapper;
+    @Autowired
+    private UserFinancialsService service;
 
-    private final UserFinancialsService service;
-    private final JWTUtil jwtUtil;
-    @Value("${kb.url}")
-    private String url;
-
+    @Autowired
+    private JWTUtil jwtUtil;
     @GetMapping("/assets/analyze")
     public ResponseEntity<String> Assetanalyze(Authentication authentication, HttpServletRequest request) {
         String id = authentication.getName();
@@ -40,7 +49,7 @@ public class AssetAnalyzeController {
         log.info("identityNumber: " + identityNumber);
 
         RestTemplate restTemplate = new RestTemplate();
-
+        String url = "http://localhost:8090/kb/total";
 
         try {
 // JWT 토큰 생성
@@ -56,7 +65,7 @@ public class AssetAnalyzeController {
 
 // GET 요청 시 JWT 토큰을 헤더에 추가하여 보냄
 //
-            ResponseEntity<Map> apiResponse = restTemplate.exchange(url+"total", HttpMethod.GET, entity, Map.class);
+            ResponseEntity<Map> apiResponse = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
 
             log.info("....{}", apiResponse);
             if (apiResponse.getStatusCode().is2xxSuccessful()) {
@@ -73,7 +82,7 @@ public class AssetAnalyzeController {
                         (Integer) totalData.getOrDefault("monthCardAmount", 0) + //월카드내역
                                 (Integer) totalData.getOrDefault("monthInsurancePremium", 0)
                 ); // 총 지출
-                dto.setTotalLoan((Integer) totalData.getOrDefault("totalRemainingLoan", 0)); // 대출금
+                dto.setTotalLoan((Integer) totalData.getOrDefault("totalRemainingBalance", 0)); // 대출금
                 log.info("financial dto: {}", dto);
                 service.processAndSaveUserFinancial(dto);
                 return ResponseEntity.ok().build();

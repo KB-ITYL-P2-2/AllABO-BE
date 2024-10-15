@@ -2,7 +2,6 @@ package com.allabo.fyl.fyl_server.security.service;
 
 import com.allabo.fyl.fyl_server.exception.AddException;
 import com.allabo.fyl.fyl_server.exception.FindException;
-import com.allabo.fyl.fyl_server.exception.NotFoundException;
 import com.allabo.fyl.fyl_server.security.mapper.CustomerMapper;
 import com.allabo.fyl.fyl_server.security.vo.Customer;
 import com.allabo.fyl.fyl_server.security.vo.CustomerAuth;
@@ -31,28 +30,18 @@ public class CustomerServiceImp implements CustomerService {
     @Transactional
     public void signup(Customer customer) throws AddException {
         try {
-            if(customerMapper.findById(customer.getId())!=null){
-                throw new NotFoundException();
-            }
             String encodedPassword = passwordEncoder.encode(customer.getPwd());
             customer.setPwd(encodedPassword);
             String encodedIdentity = passwordEncoder.encode(customer.getIdentityNumber());
             customer.setIdentityNumber(encodedIdentity);
-            String encodedPhoneNumber = passwordEncoder.encode(customer.getPhoneNumber());
-            customer.setPhoneNumber(encodedPhoneNumber);
             customerMapper.insert(customer);
             CustomerAuth customerAuth = new CustomerAuth();
             customerAuth.setId(customer.getId());  // 고객 ID 설정
-
             customerAuth.setAuth("ROLE_USER");  // 기본 권한 설정
             customerMapper.insert_auth(customerAuth);  // 권한 저장
-        } catch (FindException e) {
-            // 404로 처리
-            throw e; // 그대로 예외 던짐
-        } catch (Exception e) {
-            // 500 에러
+        }catch (Exception e){
             e.printStackTrace();
-            throw new AddException("Error occurred during signup");
+            throw new AddException();
         }
     }
 
@@ -80,8 +69,6 @@ public class CustomerServiceImp implements CustomerService {
             throw new FindException();
         }
     }
-
-
     public void modify(Customer customer) {}
 
     public void drop(Customer customer) {}
