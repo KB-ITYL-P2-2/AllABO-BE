@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @Slf4j
 @RequestMapping("/api/user")
@@ -54,30 +56,38 @@ public class UserController {
 //            return ResponseEntity.internalServerError().body(null);
 //        }
 //    }
-@PostMapping("/reset-password")
-public ResponseEntity<String> resetPwd(@RequestBody UserResetDTO dto) {
-    UserDTO userDto;
 
-    try {
-        // 사용자 프로필 조회
-        userDto = userService.getUserProfile(dto.getId());
-    } catch (UserNotFoundException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
-    } catch (Exception e) {
-        return ResponseEntity.internalServerError().body("프로필 정보 조회 실패");
-    }
+    @PostMapping("/validate")
+    public ResponseEntity<Map<String, String>> validateUser(@RequestBody UserResetDTO dto) {
+        UserDTO userDto;
+        try {
+            userDto = userService.getUserProfile(dto.getId());
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("message", "사용자를 찾을 수 없습니다."));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError()
+                    .body(Map.of("message", "프로필 정보 조회 실패"));
+        }
 
-    // 전화번호 확인
-    if (!userDto.getPhoneNumber().equals(dto.getPhoneNumber())) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).contentType(MediaType.APPLICATION_JSON).body("전화번호가 일치하지 않습니다.");
-    }
+        if (!userDto.getPhoneNumber().equals(dto.getPhoneNumber())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body(Map.of("message", "전화번호가 일치하지 않습니다."));
+        }
 
-    // 비밀번호 재설정
-    try {
-        userService.resetUserPassword(dto.getId(), dto.getPwd()); // 비밀번호 재설정
-        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body("비밀번호 재설정 성공");
-    } catch (Exception e) {
-        return ResponseEntity.internalServerError().contentType(MediaType.APPLICATION_JSON).body("비밀번호 재설정 실패: " + e.getMessage());
+        return ResponseEntity.ok()
+                .body(Map.of("message", "검증 성공"));
     }
-}
+    @PostMapping("/reset-password")
+    public ResponseEntity<Map<String, String>> resetPwd(@RequestBody UserResetDTO dto) {
+        // 비밀번호 재설정 로직
+        try {
+            userService.resetUserPassword(dto.getId(), dto.getPwd());
+            return ResponseEntity.ok()
+                    .body(Map.of("message", "비밀번호 재설정 성공"));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError()
+                    .body(Map.of("message", "비밀번호 재설정 실패: " + e.getMessage()));
+        }
+    }
 }
