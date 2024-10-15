@@ -33,7 +33,9 @@ public class UserFinancialsPlanServiceImpl implements UserFinancialsPlanService 
     @Override
     public Optional<FinancialsPlanDAO> getFinancialPlan(String userId) {
         log.info("Attempting to get financial plan for user ID: {}", userId);
-        return userFinancialsPlanRepository.getFinancialPlan(userId);
+        Optional plans = userFinancialsPlanRepository.getFinancialPlan(userId);
+        System.out.println("@@@@@@" + plans.toString());
+        return plans;
     }
 
     // 만약 인터페이스에 saveFinancialPlan 메서드가 별도로 있다면 아래와 같이 구현합니다:

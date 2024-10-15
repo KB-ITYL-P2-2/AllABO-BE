@@ -54,7 +54,9 @@ public class UserFinancialAfterYearController {
         return createJsonResponse(openAIResponse);
     }
 
+
     private String createContentForOpenAI(UserFinancialsDTO dto, FinancialsPlanDAO financialPlan) {
+        System.out.println("@@@@@@@@@@@@@@@" + financialPlan.toString());
         return "사용자의 현재 재무 상황:\n" +
                 "1. 사용자 월 소득: " + dto.getMonthlyIncome() + "원, " +
                 "2. 사용자 월 지출: " + dto.getMonthExpenses() + "원, " +

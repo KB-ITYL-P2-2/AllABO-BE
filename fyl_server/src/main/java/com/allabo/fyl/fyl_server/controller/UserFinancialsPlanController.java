@@ -1,7 +1,9 @@
 package com.allabo.fyl.fyl_server.controller;
 
+import com.allabo.fyl.fyl_server.dao.FinancialsPlanDAO;
 import com.allabo.fyl.fyl_server.dao.UserFinancialsPlanDAO;
 import com.allabo.fyl.fyl_server.dto.UserFinancialsDTO;
+import com.allabo.fyl.fyl_server.repository.UserFinancialsPlanRepository;
 import com.allabo.fyl.fyl_server.security.vo.MyUser;
 import com.allabo.fyl.fyl_server.service.UserFinancialsPlanService;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -31,6 +33,7 @@ public class UserFinancialsPlanController {
     @Value("${openai.api-key}")
     private String openAiApiKey;
 
+    private final UserFinancialsPlanRepository userFinancialsPlanRepository;
     private final UserFinancialsPlanService userFinancialsPlanService;
 
     private final ConcurrentHashMap<String, String> financialPlanStorage = new ConcurrentHashMap<>();
@@ -146,7 +149,7 @@ public class UserFinancialsPlanController {
             throw new RuntimeException("Failed to parse content JSON", e);
         }
 
-        UserFinancialsPlanDAO dao = new UserFinancialsPlanDAO();
+        FinancialsPlanDAO dao = new FinancialsPlanDAO();
         dao.setId(user.getUsername());
         JsonNode improvedStrategy = parsedContent.path("개선된_전략_요약");
 
@@ -167,12 +170,15 @@ public class UserFinancialsPlanController {
         dao.setInterestRateAdjustment(improvedStrategy.path("부채_관리").path("금리_재조정").asText());
         dao.setAdditionalRepaymentStrategy(improvedStrategy.path("부채_관리").path("추가_상환_전략").asText());
 
+        // UserFinancialsPlanRepository를 통해 저장
+        userFinancialsPlanRepository.saveFinancialPlan(dao);
 
         ReturnClass returnClass = new ReturnClass();
         returnClass.setDao(dao);
 
         return returnClass;
     }
+
 
     private String callOpenAIAPI(String content) {
         HttpHeaders headers = new HttpHeaders();
@@ -212,13 +218,13 @@ public class UserFinancialsPlanController {
     }
 
     public static class ReturnClass {
-        private UserFinancialsPlanDAO dao;
+        private FinancialsPlanDAO dao;
 
-        public UserFinancialsPlanDAO getDao() {
+        public FinancialsPlanDAO getDao() {
             return dao;
         }
 
-        public void setDao(UserFinancialsPlanDAO dao) {
+        public void setDao(FinancialsPlanDAO dao) {
             this.dao = dao;
         }
     }

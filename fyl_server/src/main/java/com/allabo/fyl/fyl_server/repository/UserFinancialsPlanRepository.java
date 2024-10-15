@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Repository
+@RequiredArgsConstructor
 @Slf4j
 public class UserFinancialsPlanRepository {
 
@@ -20,6 +21,8 @@ public class UserFinancialsPlanRepository {
     }
 
     public Optional<FinancialsPlanDAO> getFinancialPlan(String userId) {
+        System.out.println("#####" + userId);
+        log.warn("{}", inMemoryFinancialPlans);
         return Optional.ofNullable(inMemoryFinancialPlans.get(userId));
     }
 }
