@@ -2,6 +2,7 @@ package com.allabo.fyl.fyl_server.repository;
 
 import com.allabo.fyl.fyl_server.dao.UserFinancialsRatioDAO;
 import com.allabo.fyl.fyl_server.dto.UserFinancialsDTO;
+import com.allabo.fyl.fyl_server.dto.UserPortfolioDTO;
 import com.allabo.fyl.fyl_server.mapper.UserFinancialsMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +39,9 @@ public class UserFinancialsRepository {
             return Optional.empty();
         }
     }
+    public UserPortfolioDTO findUserPortfolio(String id) {
+        return userFinancialsMapper.portfolioFindById(id);
+    }
 
     @Transactional
     public void updateUserFinancial(UserFinancialsDTO userFinancialsDTO) {
@@ -49,7 +53,6 @@ public class UserFinancialsRepository {
             throw new RuntimeException("Error updating user financial data", e);
         }
     }
-
     @Transactional
     public void saveUserFinancialsRatio(UserFinancialsRatioDAO dao) {
         try {

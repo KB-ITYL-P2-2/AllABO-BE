@@ -34,8 +34,7 @@ public class RootConfig {
     @Value("${jdbc.driver}") String driver;
     @Value("${jdbc.url}") String url;
     @Value("${jdbc.username}") String username;
-    @Value("{jdbc.password}") String password;
-
+    @Value("${jdbc.password}") String password;
 
     @Bean
     public DataSource dataSource() {

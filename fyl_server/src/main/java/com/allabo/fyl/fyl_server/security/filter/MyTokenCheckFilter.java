@@ -1,10 +1,7 @@
 package com.allabo.fyl.fyl_server.security.filter;
-import com.allabo.fyl.fyl_server.dto.UserFinancialsDTO;
-import com.allabo.fyl.fyl_server.repository.UserFinancialsRepository;
 import com.allabo.fyl.fyl_server.security.exception.AccessTokenException;
 import com.allabo.fyl.fyl_server.security.mapper.CustomerMapper;
 import com.allabo.fyl.fyl_server.security.util.JWTUtil;
-import com.allabo.fyl.fyl_server.security.vo.Customer;
 import com.allabo.fyl.fyl_server.service.UserFinancialsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -12,15 +9,15 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpServerErrorException;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -33,19 +30,38 @@ import java.util.Map;
 //헤더 통해 온 토큰 인증
 @Slf4j
 @RequiredArgsConstructor
+//@PropertySource({"classpath:/application.properties"})
 public class MyTokenCheckFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
     private final JWTUtil jwtUtil;
     private final CustomerMapper customerMapper;  // CustomerMapper 인터페이스 from mybatis to Spring 주입
     private final UserFinancialsService service;
 
+
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+
         String path = request.getRequestURI();
         //요청 URI가 "/assets/analyze"로 시작하지 않으면, 토큰 검증을 건너뛰고 필터 체인을 계속 진행
-        if(!path.startsWith("/assets/analyze")){
+        if (!path.startsWith("/assets/analyze") &&
+                !path.startsWith("/assets/loan") &&
+                !path.startsWith("/assets/ratio") &&
+                !path.startsWith("/assets/saving") &&
+                !path.startsWith("/assets/income-level") &&
+                !path.startsWith("/assets/saving-ratio") &&
+                !path.startsWith("/assets/expenditure") &&
+                !path.startsWith("/assets/portfolio") &&
+                !path.startsWith("/api/user/reset-password") &&
+                !path.startsWith("/api/user/validate") &&
+                !path.startsWith("/insurance/rebalancing") &&
+                !path.startsWith("/api/favorites/add") &&
+                !path.startsWith("/api/favorites/remove") &&
+                !path.startsWith("/api/favorites/list") &&
+                !path.startsWith("/api/user/profile")
+        )
+        {
             log.info("skip MyTokenCheckFilterfilter.....path:{}", path);
             filterChain.doFilter(request, response);
             return;

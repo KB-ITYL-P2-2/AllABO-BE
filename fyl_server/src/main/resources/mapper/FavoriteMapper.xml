@@ -1,23 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.allabo.fyl.fyl_server.mapper.FavoriteMapper">
     <!-- 즐겨찾기 추가 -->
-    <insert id="insertFavorite">
-        INSERT INTO favorites (user_id, product_id, product_type)
-        VALUES (#{userId}, #{productId}, #{productType})
+    <insert id="addFavorite">
+        INSERT INTO favorites (id, product_id, product_num)
+        VALUES (#{userId}, #{productId}, #{productNum})
     </insert>
 
     <!-- 즐겨찾기 삭제 -->
-    <delete id="deleteFavorite">
+    <delete id="removeFavorite">
         DELETE FROM favorites
-        WHERE user_id = #{userId} AND product_id = #{productId} AND product_type = #{productType}
+        WHERE id = #{userId} AND product_id = #{productId} AND product_num = #{productNum}
     </delete>
 
     <!-- 즐겨찾기 목록 조회 -->
-    <select id="getFavoritesByUserId" resultType="com.allabo.fyl.fyl_server.entity.Favorite">
-        SELECT * FROM favorites WHERE user_id = #{userId}
+    <select id="getFavorites" resultType="FavoriteProductDTO">
+        SELECT
+            f.favorites_id,
+            f.id,
+            f.product_id,
+            f.product_num,
+            -- 예적금 정보
+            d.deposit_id as depositId, d.deposit_name as depositName, d.deposit_content as depositContent, d.deposit_category as depositCategory, d.deposit_url as depositUrl, d.deposit_interest_rate as depositInterestRate, d.deposit_min_amount as depositMinAmount, d.deposit_online as depositOnline, d.deposit_duration as depositDuration, d.deposit_prefer_interest_rate as depositPreferInterestRate,
+            -- 대출 정보
+            l.loan_id as loanId, l.loan_name as loanName, l.loan_url as loanUrl, l.loan_content as loanContent, l.loan_channel as loanChannel, l.loan_amount as loanAmount, l.loan_keyword as loanKeyword, l.loan_type as loanType,
+            -- 보험 정보
+            i.insurance_id as insuranceId, i.insurance_name as insuranceName, i.insurance_url as insuranceUrl, i.insurance_keyword as insuranceKeyword, i.insurance_type as insuranceType,
+            -- 체크카드 정보
+            cc.check_card_id as checkCardId, cc.check_card_name as checkCardName, cc.check_card_content as checkCardContent, cc.check_card_detail_url as checkCardDetailUrl, cc.check_card_image_url as checkCardImageUrl, cc.check_card_category as checkCardCategory,
+            -- 신용카드 정보
+            cr.credit_card_id as creditCardId, cr.credit_card_name as creditCardName, cr.credit_card_content as creditCardContent, cr.credit_card_detail_url as creditCardDetailUrl, cr.credit_card_image_url as creditCardImageUrl, cr.credit_card_category as creditCardCategory, cr.credit_card_annual_fee as creditCardAnnualFee, cr.credit_card_keyword as creditCardKeyword
+        FROM
+            favorites f
+                LEFT JOIN deposit_products d ON f.product_id = d.product_id AND f.product_num = d.deposit_id
+                LEFT JOIN loan_products l ON f.product_id = l.product_id AND f.product_num = l.loan_id
+                LEFT JOIN insurance_products i ON f.product_id = i.product_id AND f.product_num = i.insurance_id
+                LEFT JOIN check_card_products cc ON f.product_id = cc.product_id AND f.product_num = cc.check_card_id
+                LEFT JOIN credit_card_products cr ON f.product_id = cr.product_id AND f.product_num = cr.credit_card_id
+        WHERE f.id = #{userId}
     </select>
 </mapper>

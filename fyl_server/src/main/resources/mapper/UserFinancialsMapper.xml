@@ -100,6 +100,28 @@
     </select>
 
 
+    <resultMap id="searchIdport"  type="UserPortfolioDTO">
+        <id property="id" 		column="id" />
+        <result property="totalIncome"		column="total_income" />
+        <result property="totalAssets" 		column="total_assets" />
+        <result property="totalSavings"		column="total_savings" />
+        <result property="totalInvestment"	column="total_investment" />
+        <result property="monthExpenses"	column="month_expenses" />
+        <result property="totalLoan"	column="total_loan" />
+    </resultMap>
+
+    <select id="portfolioFindById"
+            parameterType="string"
+            resultMap="searchIdport">
+        select c.id, c.total_assets, c.total_savings, c.total_investment, c.month_expenses, c.total_loan, a.total_income
+        from
+            user_financials c left outer join customer a
+                                              on c.id = a.id
+        where c.id = #{id}
+    </select>
+
+
+
     <update id="updateUserFinancial" parameterType="UserFinancialsDTO">
         UPDATE user_financials
         SET

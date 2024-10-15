@@ -2,6 +2,7 @@ package com.allabo.fyl.fyl_server.service;
 
 import com.allabo.fyl.fyl_server.dao.UserFinancialsRatioDAO;
 import com.allabo.fyl.fyl_server.dto.UserFinancialsDTO;
+import com.allabo.fyl.fyl_server.dto.UserPortfolioDTO;
 import com.allabo.fyl.fyl_server.repository.UserFinancialsRepository;
 import com.allabo.fyl.fyl_server.security.mapper.CustomerMapper;
 import lombok.RequiredArgsConstructor;

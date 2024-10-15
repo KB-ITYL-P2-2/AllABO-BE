@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.allabo.fyl.fyl_server.mapper.UserIncomeAnalyzeMapper">
+
+    <insert id="saveUserIncomeAnalyze" parameterType="UserIncomeAnalyzeDAO">
+        INSERT INTO user_income_analyze (id, results, income_lev)
+        VALUES (#{id}, #{results}, #{incomeLev})
+    </insert>
+
+
+
+    <resultMap id="userIncomeAnalysisMap" type="UserIncomeAnalyzeDAO">
+        <id property="id" column="id" />
+        <result property="results" column="results" />
+        <result property="incomeLev" column="income_lev" />
+    </resultMap>
+
+    <select id="findById" parameterType="string" resultMap="userIncomeAnalysisMap">
+        SELECT *
+        FROM user_income_analyze
+        WHERE id = #{id}
+    </select>
+
+    <update id="updateUserIncomeAnalyze" parameterType="UserIncomeAnalyzeDAO">
+        UPDATE user_income_analyze
+        SET
+            id = #{id},
+            results = #{results},
+            income_lev = #{incomeLev}
+        WHERE
+            id = #{id}
+    </update>
+
+
+</mapper>
+
+
