@@ -1,6 +1,7 @@
 package com.allabo.fyl.fyl_server.repository;
 import com.allabo.fyl.fyl_server.dao.UserFinancialsRatioDAO;
 import com.allabo.fyl.fyl_server.dto.UserFinancialsDTO;
+import com.allabo.fyl.fyl_server.dto.UserPortfolioDTO;
 import com.allabo.fyl.fyl_server.mapper.UserFinancialsMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,9 @@ public class UserFinancialsRepository {
 
     public UserFinancialsDTO findUserFinancial(String id) {
         return userFinancialsMapper.findById(id);
+    }
+    public UserPortfolioDTO findUserPortfolio(String id) {
+        return userFinancialsMapper.portfolioFindById(id);
     }
 
     public void updateUserFinancial(UserFinancialsDTO userFinancialsDTO) {

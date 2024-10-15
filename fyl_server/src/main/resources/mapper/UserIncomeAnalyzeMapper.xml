@@ -3,8 +3,8 @@
 <mapper namespace="com.allabo.fyl.fyl_server.mapper.UserIncomeAnalyzeMapper">
 
     <insert id="saveUserIncomeAnalyze" parameterType="UserIncomeAnalyzeDAO">
-        INSERT INTO user_income_analyze (id, results)
-        VALUES (#{id}, #{results})
+        INSERT INTO user_income_analyze (id, results, income_lev)
+        VALUES (#{id}, #{results}, #{incomeLev})
     </insert>
 
 
@@ -12,6 +12,7 @@
     <resultMap id="userIncomeAnalysisMap" type="UserIncomeAnalyzeDAO">
         <id property="id" column="id" />
         <result property="results" column="results" />
+        <result property="incomeLev" column="income_lev" />
     </resultMap>
 
     <select id="findById" parameterType="string" resultMap="userIncomeAnalysisMap">
@@ -24,7 +25,8 @@
         UPDATE user_income_analyze
         SET
             id = #{id},
-            results = #{results}
+            results = #{results},
+            income_lev = #{incomeLev}
         WHERE
             id = #{id}
     </update>
