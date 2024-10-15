@@ -10,42 +10,65 @@ import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 //헤더 통해 온 토큰 인증
 @Slf4j
 @RequiredArgsConstructor
+//@PropertySource({"classpath:/application.properties"})
 public class MyTokenCheckFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
     private final JWTUtil jwtUtil;
     private final CustomerMapper customerMapper;  // CustomerMapper 인터페이스 from mybatis to Spring 주입
     private final UserFinancialsService service;
 
-    @Value("${protected.uris:}")
-    private String[] protectedUris;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        String path = request.getRequestURI();
 
+        String path = request.getRequestURI();
         //요청 URI가 "/assets/analyze"로 시작하지 않으면, 토큰 검증을 건너뛰고 필터 체인을 계속 진행
-        if (protectedUris == null || Arrays.stream(protectedUris).noneMatch(path::startsWith))
+        if (!path.startsWith("/assets/analyze") &&
+                !path.startsWith("/assets/loan") &&
+                !path.startsWith("/assets/ratio") &&
+                !path.startsWith("/assets/saving") &&
+                !path.startsWith("/assets/income-level") &&
+                !path.startsWith("/assets/saving-ratio") &&
+                !path.startsWith("/assets/expenditure") &&
+                !path.startsWith("/assets/portfolio") &&
+                !path.startsWith("/api/user/reset-password") &&
+                !path.startsWith("/api/user/validate") &&
+                !path.startsWith("/insurance/rebalancing") &&
+                !path.startsWith("/social-loginx") &&
+                !path.startsWith("/api/favorites/add") &&
+                !path.startsWith("/api/favorites/remove") &&
+                !path.startsWith("/api/favorites/list") &&
+                !path.startsWith("/product/check-card") &&
+                !path.startsWith("/product/credit-card") &&
+                !path.startsWith("/product/loan") &&
+                !path.startsWith("/product/insurance") &&
+                !path.startsWith("/product/deposit") &&
+                !path.startsWith("/api/recommendations/card") &&
+                !path.startsWith("/api/recommendations/deposit") &&
+                !path.startsWith("/api/user/profile")
+        )
         {
             log.info("skip MyTokenCheckFilterfilter.....path:{}", path);
             filterChain.doFilter(request, response);
