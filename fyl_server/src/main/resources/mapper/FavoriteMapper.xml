@@ -40,4 +40,10 @@
                 LEFT JOIN credit_card_products cr ON f.product_id = cr.product_id AND f.product_num = cr.credit_card_id
         WHERE f.id = #{userId}
     </select>
+
+    <select id="getFavoritesByUserId" resultType="Favorite">
+        select *
+        from favorites
+        where id = #{userId}
+    </select>
 </mapper>

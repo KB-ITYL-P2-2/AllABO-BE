@@ -17,6 +17,6 @@ public interface FavoriteMapper {
     void removeFavorite(@Param("userId") String userId, @Param("productId") String productId, @Param("productNum") int productNum);
 
     // 즐겨찾기 목록 조회 - 어노테이션 제거, 매퍼 XML에서 정의
-//    List<Favorite> getFavoritesByUserId(Long userId);
+    List<Favorite> getFavoritesByUserId(String userId);
     List<FavoriteProductDTO>  getFavorites(@Param("userId") String userId);
 }

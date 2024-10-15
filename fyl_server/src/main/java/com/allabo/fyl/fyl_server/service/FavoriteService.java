@@ -28,4 +28,9 @@ public class FavoriteService {
     public List<FavoriteProductDTO> getFavorites(String userId) {
         return favoriteMapper.getFavorites(userId);
     }
+
+    // 즐겨찾기 목록 조회 및 상품 정보 포함
+    public List<Favorite> getFavoritesByUserId(String userId) {
+        return favoriteMapper.getFavoritesByUserId(userId);
+    }
 }

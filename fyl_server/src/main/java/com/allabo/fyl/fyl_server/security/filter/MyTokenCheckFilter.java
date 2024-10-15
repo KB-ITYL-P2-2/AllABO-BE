@@ -59,6 +59,7 @@ public class MyTokenCheckFilter extends OncePerRequestFilter {
                 !path.startsWith("/api/favorites/add") &&
                 !path.startsWith("/api/favorites/remove") &&
                 !path.startsWith("/api/favorites/list") &&
+                !path.startsWith("/api/favorites//mapping-list") &&
                 !path.startsWith("/api/user/profile") &&
                 !path.startsWith("/assets/plan") &&
                 !path.startsWith("/assets/after-year")
