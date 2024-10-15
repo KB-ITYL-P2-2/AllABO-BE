@@ -56,17 +56,9 @@ public class MyTokenCheckFilter extends OncePerRequestFilter {
                 !path.startsWith("/api/user/reset-password") &&
                 !path.startsWith("/api/user/validate") &&
                 !path.startsWith("/insurance/rebalancing") &&
-                !path.startsWith("/social-loginx") &&
                 !path.startsWith("/api/favorites/add") &&
                 !path.startsWith("/api/favorites/remove") &&
                 !path.startsWith("/api/favorites/list") &&
-                !path.startsWith("/product/check-card") &&
-                !path.startsWith("/product/credit-card") &&
-                !path.startsWith("/product/loan") &&
-                !path.startsWith("/product/insurance") &&
-                !path.startsWith("/product/deposit") &&
-                !path.startsWith("/api/recommendations/card") &&
-                !path.startsWith("/api/recommendations/deposit") &&
                 !path.startsWith("/api/user/profile")
         )
         {
