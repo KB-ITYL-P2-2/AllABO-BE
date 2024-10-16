@@ -8,7 +8,6 @@ import com.allabo.fyl.fyl_server.security.handler.MyLoginSuccessHandler;
 import com.allabo.fyl.fyl_server.security.mapper.CustomerMapper;
 import com.allabo.fyl.fyl_server.security.service.MyUserDetailsService;
 import com.allabo.fyl.fyl_server.security.util.JWTUtil;
-import com.allabo.fyl.fyl_server.service.KakaoService;
 import com.allabo.fyl.fyl_server.service.UserFinancialsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +44,6 @@ public class SecurityConfig {
     private final MyUserDetailsService userDetailsService;
     private final CustomerMapper mapper;
     private final UserFinancialsService service;
-    private final KakaoService kakaoService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -118,7 +116,7 @@ public class SecurityConfig {
         MyLoginSuccessHandler loginSuccessHandler = new MyLoginSuccessHandler(jwtUtil);
         MyLoginFailureHandler loginFailureHandler = new MyLoginFailureHandler();
         MyLoginFilter loginFilter = new MyLoginFilter(authenticationManager,
-                "/login",kakaoService
+                "/login"
         );
         loginFilter.setAuthenticationSuccessHandler(loginSuccessHandler);
         loginFilter.setAuthenticationFailureHandler(loginFailureHandler);

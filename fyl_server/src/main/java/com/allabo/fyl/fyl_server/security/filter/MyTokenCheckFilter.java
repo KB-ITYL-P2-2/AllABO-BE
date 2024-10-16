@@ -120,7 +120,7 @@ public class MyTokenCheckFilter extends OncePerRequestFilter {
         try{
             Map<String, Object> values = jwtUtil.validateToken(tokenStr);
             return values;
-        }catch(MalformedJwtException malformedJwtcException){//포맷 잘못된 경우
+        }catch(MalformedJwtException malformedJwtException){//포맷 잘못된 경우
             log.error("MalformedJwtException----------------------");
             throw new AccessTokenException(AccessTokenException.TOKEN_ERROR.MALFORM);
         }catch(SignatureException signatureException){//access key 잘못된 경우
