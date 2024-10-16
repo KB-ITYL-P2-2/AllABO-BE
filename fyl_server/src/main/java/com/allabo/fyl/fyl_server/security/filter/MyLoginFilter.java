@@ -4,6 +4,7 @@ import com.allabo.fyl.fyl_server.security.dto.LoginDTO;
 import com.allabo.fyl.fyl_server.security.handler.MyLoginFailureHandler;
 import com.allabo.fyl.fyl_server.security.handler.MyLoginSuccessHandler;
 import com.allabo.fyl.fyl_server.security.util.JWTUtil;
+import com.allabo.fyl.fyl_server.service.KakaoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,13 +28,14 @@ public class MyLoginFilter
         UsernamePasswordAuthenticationFilter
 //        AbstractAuthenticationProcessingFilter
 {
-
+    private final KakaoService kakaoService;
 
     public MyLoginFilter(
             AuthenticationManager authenticationManager,
-            String filterProcessesUrl
+            String filterProcessesUrl,KakaoService kakaoService
     ) {
         super(authenticationManager);
+        this.kakaoService = kakaoService;
         log.error("MyLoginFilter");
         setFilterProcessesUrl(filterProcessesUrl); // POST 로그인 요청 url
     }
@@ -66,6 +68,27 @@ public class MyLoginFilter
             return null;
         }
         log.info("request.getMethod()={}", request.getMethod());
+
+        // 요청 헤더나 파라미터를 통해 카카오 로그인을 구분
+        String loginType = request.getHeader("loginType");
+
+        if ("kakao".equalsIgnoreCase(loginType)) {
+            // 카카오 로그인 처리 로직 추가
+            String kakaoToken = getJSonData(request).get("kakaoToken");
+
+            // 카카오 서버에 토큰 유효성 검사를 요청하고, 해당 정보를 바탕으로 인증 처리
+            // 사용자 정보를 가져와서 UsernamePasswordAuthenticationToken 생성 및 인증 요청
+            // 예시로, username을 카카오 프로필에서 가져온다고 가정
+            String username = null;
+            try {
+                username = kakaoService.getUserNameFromKakaoToken(kakaoToken);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, null);
+
+            return getAuthenticationManager().authenticate(authenticationToken);
+        }
 
 
         log.info("--JSON 데이터로 UsernamePasswordAuthenticationToken생성--");
