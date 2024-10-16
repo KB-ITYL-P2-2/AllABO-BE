@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.allabo.fyl.fyl_server.mapper.UserFinancialsValueMapper">
+    <insert id="insertUserFinancialValue" parameterType="UserFinancialsValueDTO">
+        INSERT INTO user_financials (
+            id,
+            monthly_income,
+            total_assets,
+            total_savings,
+            total_investment,
+            month_expenses,
+            total_loan
+        )
+        VALUES (
+               #{id},
+               #{monthlyIncome},
+               #{totalAssets},
+               #{totalSavings},
+               #{totalInvestment},
+               #{monthExpenses},
+               #{totalLoan}
+               )
+    </insert>
+
+
+
+    <resultMap id="searchIdmap2"  type="UserFinancialsValueDTO">
+        <id property="id" 		column="id" />
+        <result property="monthlyIncome"		column="monthly_income" />
+        <result property="totalAssets" 		column="total_assets" />
+        <result property="totalSavings"		column="total_savings" />
+        <result property="totalInvestment"	column="total_investment" />
+        <result property="monthExpenses"	column="month_expenses" />
+        <result property="totalLoan"	column="total_loan" />
+    </resultMap>
+
+    <select id="findValueById"
+            parameterType="string"
+            resultMap="searchIdmap2">
+        select *
+        from
+            user_financials
+        where id = #{id}
+    </select>
+
+
+    <resultMap id="searchIdport2"  type="UserPortfolioDTO">
+        <id property="id" 		column="id" />
+        <result property="totalIncome"		column="total_income" />
+        <result property="totalAssets" 		column="total_assets" />
+        <result property="totalSavings"		column="total_savings" />
+        <result property="totalInvestment"	column="total_investment" />
+        <result property="monthExpenses"	column="month_expenses" />
+        <result property="totalLoan"	column="total_loan" />
+    </resultMap>
+
+<!--    <select id="portfolioFindById"-->
+<!--            parameterType="string"-->
+<!--            resultMap="searchIdport2">-->
+<!--        select c.id, c.total_assets, c.total_savings, c.total_investment, c.month_expenses, c.total_loan, a.total_income-->
+<!--        from-->
+<!--            user_financials c left outer join customer a-->
+<!--                                              on c.id = a.id-->
+<!--        where c.id = #{id}-->
+<!--    </select>-->
+
+
+
+    <update id="updateUserFinancialValue" parameterType="UserFinancialsValueDTO">
+        UPDATE user_financials
+        SET
+            monthly_income = #{monthlyIncome},
+            total_assets = #{totalAssets},
+            total_savings = #{totalSavings},
+            total_investment = #{totalInvestment},
+            month_expenses = #{monthExpenses},
+            total_loan = #{totalLoan}
+        WHERE
+            id = #{id}
+    </update>
+
+
+    <insert id="saveUserFinancialsRatio" parameterType="UserFinancialsRatioDAO">
+        INSERT INTO user_financials_ratio (
+            id,
+            asset_investment_ratio,
+            income_investment_ratio,
+            income_savings_ratio,
+            income_debt_ratio,
+            asset_savings_ratio,
+            asset_debt_ratio,
+            income_expenditure_ratio
+        )
+        VALUES (
+                   #{id},
+                   #{assetInvestmentRatio},
+                   #{incomeInvestmentRatio},
+                   #{incomeSavingsRatio},
+                   #{incomeDebtRatio},
+                   #{assetSavingsRatio},
+                   #{assetDebtRatio},
+                   #{incomeExpenditureRatio}
+               )
+    </insert>
+
+
+
+
+</mapper>
+
+
