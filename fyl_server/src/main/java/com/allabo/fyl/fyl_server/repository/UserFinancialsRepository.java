@@ -26,7 +26,4 @@ public class UserFinancialsRepository {
     public void updateUserFinancial(UserFinancialsDTO userFinancialsDTO) {
         userFinancialsMapper.updateUserFinancial(userFinancialsDTO);
     }
-
-
-
 }
